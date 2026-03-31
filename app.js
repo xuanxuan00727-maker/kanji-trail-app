@@ -1310,6 +1310,14 @@ function updateWritingStrokeCount(item) {
   strokeCount.textContent = `筆画: ${uiState.writing.strokes.length} / ${getExpectedStrokePattern(item).length}`;
 }
 
+function maybeAutoCheckWriting(item) {
+  const expectedStrokeCount = getExpectedStrokePattern(item).length;
+  if (uiState.writing.strokes.length !== expectedStrokeCount) {
+    return;
+  }
+  handleWritingCheck();
+}
+
 function renderSidePanel() {
   const levelInfo = getLevelInfo(state.points);
   const levelPanel = document.getElementById("levelPanel");
@@ -1524,6 +1532,7 @@ function setupWritingCanvas(item) {
     uiState.writing.current = [];
     redrawCanvas(ctx, canvas);
     updateWritingStrokeCount(item);
+    maybeAutoCheckWriting(item);
   };
 
   canvas.onpointerleave = () => {
