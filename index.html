@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>かんじトレイル</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="world-backdrop" aria-hidden="true">
+      <div class="cloud cloud-a"></div>
+      <div class="cloud cloud-b"></div>
+      <div class="cloud cloud-c"></div>
+      <div class="skyline skyline-far"></div>
+      <div class="skyline skyline-near"></div>
+      <div class="street"></div>
+    </div>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <p class="eyebrow">Blocky Learning World</p>
+          <h1>かんじトレイル</h1>
+          <p class="brand-copy">まいにち 15〜20分で、ことばと書きじゅんをたのしくれんしゅう。</p>
+        </div>
+        <div class="grade-switcher" id="gradeSwitcher" aria-label="学年切り替え"></div>
+        <div class="top-stats">
+          <div class="stat-pill">
+            <span class="stat-label">ポイント</span>
+            <strong id="pointsValue">0</strong>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-label">れんぞく</span>
+            <strong id="streakValue">1日</strong>
+          </div>
+          <div class="stat-pill highlight">
+            <span class="stat-label">称号</span>
+            <strong id="titleValue">はじめの一歩</strong>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <section class="hero-card" id="heroCard"></section>
+        <section class="lesson-card" id="lessonCard"></section>
+        <aside class="side-panel">
+          <section class="panel level-panel" id="levelPanel"></section>
+          <section class="panel gacha-panel" id="gachaPanel"></section>
+          <section class="panel collection-panel" id="collectionPanel"></section>
+        </aside>
+        <section class="track-panel panel" id="trackPanel"></section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
