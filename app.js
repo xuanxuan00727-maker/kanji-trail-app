@@ -1254,7 +1254,7 @@ function renderWritingStep(step) {
     <div class="writing-shell">
       <div class="writing-meta">
         <span class="writing-badge">AI判定β: 画の 始点・終点・方向を みています</span>
-        <span class="writing-badge">筆画: ${uiState.writing.strokes.length} / ${expected.length}</span>
+        <span class="writing-badge" id="writingStrokeCount">筆画: ${uiState.writing.strokes.length} / ${expected.length}</span>
         <span class="writing-badge">${step.item.kanji} を ${completedRepeats} / ${WRITING_REPETITIONS} 回 れんしゅう</span>
       </div>
       <div class="writing-support-grid">
@@ -1302,6 +1302,12 @@ function renderWritingStep(step) {
       </div>
     </div>
   `;
+}
+
+function updateWritingStrokeCount(item) {
+  const strokeCount = document.getElementById("writingStrokeCount");
+  if (!strokeCount) return;
+  strokeCount.textContent = `筆画: ${uiState.writing.strokes.length} / ${getExpectedStrokePattern(item).length}`;
 }
 
 function renderSidePanel() {
@@ -1517,7 +1523,7 @@ function setupWritingCanvas(item) {
     }
     uiState.writing.current = [];
     redrawCanvas(ctx, canvas);
-    renderLesson();
+    updateWritingStrokeCount(item);
   };
 
   canvas.onpointerleave = () => {
