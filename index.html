@@ -5,6 +5,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>かんじトレイル</title>
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .stats-stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .habit-strip {
+        padding: 14px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.14);
+        border: 2px solid rgba(255, 255, 255, 0.34);
+        box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .habit-strip-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: end;
+        margin-bottom: 12px;
+        color: white;
+      }
+
+      .habit-strip-head strong,
+      .habit-strip-head span,
+      .habit-strip-head b {
+        display: block;
+      }
+
+      .habit-strip-head strong {
+        font-size: 0.98rem;
+      }
+
+      .habit-strip-head span {
+        margin-top: 3px;
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.78);
+      }
+
+      .habit-strip-head b {
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      .habit-badge-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .habit-badge {
+        padding: 10px 8px 12px;
+        border-radius: 18px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.92);
+        border: 2px solid rgba(255, 255, 255, 0.94);
+        box-shadow: inset 0 -4px 0 rgba(23, 49, 79, 0.08);
+      }
+
+      .habit-badge.active,
+      .habit-badge.unlocked,
+      .habit-badge.complete {
+        transform: translateY(-1px);
+        box-shadow: inset 0 -4px 0 rgba(23, 49, 79, 0.08), 0 12px 18px rgba(15, 44, 77, 0.14);
+      }
+
+      .habit-badge.locked {
+        background: rgba(242, 247, 252, 0.88);
+      }
+
+      .habit-badge.complete {
+        background: linear-gradient(180deg, #ffffff, #eefdf2);
+      }
+
+      .habit-badge strong {
+        display: block;
+        margin-top: 2px;
+        font-size: 0.95rem;
+        color: #1b3656;
+      }
+
+      .habit-badge small {
+        display: block;
+        margin-top: 4px;
+        color: #60748a;
+        line-height: 1.35;
+      }
+
+      .habit-icon-stack {
+        position: relative;
+        width: 72px;
+        aspect-ratio: 1 / 1;
+        margin: 0 auto 8px;
+      }
+
+      .habit-icon-stack.single {
+        display: grid;
+        place-items: center;
+      }
+
+      .habit-icon-layer {
+        position: absolute;
+        inset: 0;
+      }
+
+      .habit-badge.today .habit-icon-layer.secondary {
+        opacity: 0;
+      }
+
+      .habit-badge.today.complete .habit-icon-layer.primary {
+        animation: today-primary-fade 2.8s infinite;
+      }
+
+      .habit-badge.today.complete .habit-icon-layer.secondary {
+        animation: today-secondary-fade 2.8s infinite;
+      }
+
+      .habit-icon-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        filter: drop-shadow(0 8px 12px rgba(23, 49, 79, 0.16));
+      }
+
+      .habit-badge.locked .habit-icon-svg {
+        filter: grayscale(0.75) saturate(0.5) brightness(1.03) drop-shadow(0 8px 12px rgba(23, 49, 79, 0.08));
+      }
+
+      @keyframes today-primary-fade {
+        0%,
+        42% {
+          opacity: 1;
+        }
+        50%,
+        92% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes today-secondary-fade {
+        0%,
+        42% {
+          opacity: 0;
+        }
+        50%,
+        92% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .habit-strip-head {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .habit-badge {
+          padding: 10px 6px 12px;
+        }
+
+        .habit-icon-stack {
+          width: 58px;
+        }
+
+        .habit-badge strong {
+          font-size: 0.88rem;
+        }
+
+        .habit-badge small {
+          font-size: 0.73rem;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="world-backdrop" aria-hidden="true">
@@ -23,19 +202,22 @@
           <p class="brand-copy">まいにち 15〜20分で、ことばと書きじゅんをたのしくれんしゅう。</p>
         </div>
         <div class="grade-switcher" id="gradeSwitcher" aria-label="学年切り替え"></div>
-        <div class="top-stats">
-          <div class="stat-pill">
-            <span class="stat-label">ポイント</span>
-            <strong id="pointsValue">0</strong>
+        <div class="stats-stack">
+          <div class="top-stats">
+            <div class="stat-pill">
+              <span class="stat-label">ポイント</span>
+              <strong id="pointsValue">0</strong>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-label">れんぞく</span>
+              <strong id="streakValue">1日</strong>
+            </div>
+            <div class="stat-pill highlight">
+              <span class="stat-label">称号</span>
+              <strong id="titleValue">はじめの一歩</strong>
+            </div>
           </div>
-          <div class="stat-pill">
-            <span class="stat-label">れんぞく</span>
-            <strong id="streakValue">1日</strong>
-          </div>
-          <div class="stat-pill highlight">
-            <span class="stat-label">称号</span>
-            <strong id="titleValue">はじめの一歩</strong>
-          </div>
+          <div class="habit-strip" id="habitStrip" aria-label="れんしゅうアイコン"></div>
         </div>
       </header>
 
@@ -52,5 +234,186 @@
     </div>
 
     <script src="./app.js"></script>
+    <script>
+      function renderFallbackHabitIconCalmBlue() {
+        return `
+          <svg class="habit-icon-svg" viewBox="0 0 96 96" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="fallbackHabitBlueBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#87ecff"></stop>
+                <stop offset="100%" stop-color="#2f9fe6"></stop>
+              </linearGradient>
+              <linearGradient id="fallbackHabitBlueFace" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"></stop>
+                <stop offset="100%" stop-color="#dfefff"></stop>
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="88" height="88" rx="24" fill="url(#fallbackHabitBlueBg)" stroke="#58a9d5" stroke-width="2.5"></rect>
+            <rect x="18" y="27" width="44" height="44" rx="14" fill="url(#fallbackHabitBlueFace)" stroke="#98bdd6" stroke-width="2.5"></rect>
+            <rect x="30" y="37" width="6.5" height="9" rx="3.25" fill="#3f4c57"></rect>
+            <rect x="46" y="37" width="6.5" height="9" rx="3.25" fill="#3f4c57"></rect>
+            <path d="M28 54L40 65L53 53" fill="none" stroke="#6989a7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M72 10h10c6 0 10 4 10 10v10c0 0-6-11-20-20Z" fill="#ffffff" opacity="0.88"></path>
+          </svg>
+        `;
+      }
+
+      function renderFallbackHabitIconIdeaGreen() {
+        return `
+          <svg class="habit-icon-svg" viewBox="0 0 96 96" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="fallbackHabitGreenBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#98f54d"></stop>
+                <stop offset="100%" stop-color="#38b954"></stop>
+              </linearGradient>
+              <linearGradient id="fallbackHabitGreenFace" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"></stop>
+                <stop offset="100%" stop-color="#edf7ff"></stop>
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="88" height="88" rx="24" fill="url(#fallbackHabitGreenBg)" stroke="#62b750" stroke-width="2.5"></rect>
+            <rect x="18" y="27" width="44" height="44" rx="14" fill="url(#fallbackHabitGreenFace)" stroke="#95c3ad" stroke-width="2.5"></rect>
+            <path d="M30 39L34 44L39 35" fill="none" stroke="#3c464f" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <rect x="46" y="36" width="6" height="10" rx="3" fill="#3c464f"></rect>
+            <path d="M28 54L40 65L52 54" fill="none" stroke="#576f88" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <g transform="translate(56 16)">
+              <path d="M11 0C4.9 0 0 4.9 0 11c0 4 2.2 7.5 5.4 9.4V24c0 1.2 1 2.2 2.2 2.2h6.8c1.2 0 2.2-1 2.2-2.2v-3.6c3.2-1.9 5.4-5.4 5.4-9.4C22 4.9 17.1 0 11 0Z" fill="#fff5a8" stroke="#5e5e52" stroke-width="1.8"></path>
+              <path d="M11 5v7" stroke="#fffaf1" stroke-width="2" stroke-linecap="round"></path>
+              <path d="M8 24.5h6" stroke="#5e5e52" stroke-width="1.8" stroke-linecap="round"></path>
+            </g>
+            <path d="M72 10h10c6 0 10 4 10 10v10c0 0-6-11-20-20Z" fill="#ffffff" opacity="0.88"></path>
+          </svg>
+        `;
+      }
+
+      function renderFallbackHabitIconCoolOrange() {
+        return `
+          <svg class="habit-icon-svg" viewBox="0 0 96 96" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="fallbackHabitOrangeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffd34a"></stop>
+                <stop offset="100%" stop-color="#f27a1a"></stop>
+              </linearGradient>
+              <linearGradient id="fallbackHabitOrangeFace" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"></stop>
+                <stop offset="100%" stop-color="#edf4ff"></stop>
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="88" height="88" rx="24" fill="url(#fallbackHabitOrangeBg)" stroke="#dd8229" stroke-width="2.5"></rect>
+            <rect x="18" y="27" width="48" height="44" rx="14" fill="url(#fallbackHabitOrangeFace)" stroke="#cbb29d" stroke-width="2.5"></rect>
+            <path d="M26 39h16l-1.5 10H25L26 39Z" fill="#2e3742"></path>
+            <path d="M42 39h16l1 10H43.5L42 39Z" fill="#303945"></path>
+            <path d="M40 42h4" stroke="#5f6973" stroke-width="2.4" stroke-linecap="round"></path>
+            <path d="M31 54L43 64L55 54" fill="none" stroke="#557596" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M72 10h10c6 0 10 4 10 10v10c0 0-6-11-20-20Z" fill="#ffffff" opacity="0.88"></path>
+          </svg>
+        `;
+      }
+
+      function renderFallbackHabitIconCreativePurple() {
+        return `
+          <svg class="habit-icon-svg" viewBox="0 0 96 96" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="fallbackHabitPurpleBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#c792ff"></stop>
+                <stop offset="100%" stop-color="#8655cb"></stop>
+              </linearGradient>
+              <linearGradient id="fallbackHabitPaper" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"></stop>
+                <stop offset="100%" stop-color="#eef1ff"></stop>
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="88" height="88" rx="24" fill="url(#fallbackHabitPurpleBg)" stroke="#8d68c8" stroke-width="2.5"></rect>
+            <g transform="translate(28 34)">
+              <path d="M0 36L10 2l7 2L7 38Z" fill="#ffca44" stroke="#c77e15" stroke-width="2"></path>
+              <path d="M14 37L22 40l-8 3l-4-5Z" fill="#fff0cf"></path>
+            </g>
+            <g transform="translate(55 36)">
+              <path d="M18 34L11 0l7-1.5L25 32Z" fill="#ffd64e" stroke="#d78316" stroke-width="2"></path>
+              <path d="M0 34l17-2l-6 7L0 39Z" fill="#fff0cf"></path>
+            </g>
+            <g transform="translate(26 28)">
+              <rect x="8" y="8" width="34" height="38" rx="7" fill="url(#fallbackHabitPaper)" stroke="#a0acc5" stroke-width="2.5"></rect>
+              <path d="M17 22c3-5 8-5 11 0" fill="none" stroke="#7c6f63" stroke-width="2.6" stroke-linecap="round"></path>
+              <path d="M28 22c3-5 8-5 11 0" fill="none" stroke="#7c6f63" stroke-width="2.6" stroke-linecap="round"></path>
+              <path d="M24 34c3 2 8 2 11 0" fill="none" stroke="#7c6f63" stroke-width="2.6" stroke-linecap="round"></path>
+            </g>
+            <path d="M72 10h10c6 0 10 4 10 10v10c0 0-6-11-20-20Z" fill="#ffffff" opacity="0.88"></path>
+          </svg>
+        `;
+      }
+
+      function renderFallbackHabitStrip() {
+        const strip = document.getElementById("habitStrip");
+        if (!strip) return;
+
+        const completedToday =
+          typeof state !== "undefined" &&
+          state &&
+          state.lastCompletedDate === state.today;
+        const streak =
+          typeof state !== "undefined" && state && typeof state.streak === "number"
+            ? state.streak
+            : Number.parseInt((document.getElementById("streakValue") || {}).textContent || "1", 10) || 1;
+        const session =
+          typeof getCurrentSession === "function" ? getCurrentSession() : null;
+        const tasks =
+          typeof TASKS_PER_GRADE === "number" ? TASKS_PER_GRADE : 15;
+        const remaining = Math.max(tasks - ((session && session.completed) || 0), 0);
+        const weekUnlocked = streak >= 7;
+        const fortnightUnlocked = streak >= 14;
+
+        strip.innerHTML = `
+          <div class="habit-strip-head">
+            <div>
+              <strong>れんしゅうアイコン</strong>
+              <span>お子さんの 絵をもとにした ごほうびメーター</span>
+            </div>
+            <b>${streak}日 つづいてる</b>
+          </div>
+          <div class="habit-badge-grid">
+            <div class="habit-badge today ${completedToday ? "complete" : "active"}">
+              <div class="habit-icon-stack">
+                <div class="habit-icon-layer primary">${renderFallbackHabitIconCalmBlue()}</div>
+                <div class="habit-icon-layer secondary">${renderFallbackHabitIconIdeaGreen()}</div>
+              </div>
+              <strong>きょう</strong>
+              <small>${completedToday ? "できた" : `あと ${remaining} ミッション`}</small>
+            </div>
+            <div class="habit-badge ${weekUnlocked ? "unlocked" : "locked"}">
+              <div class="habit-icon-stack single">${renderFallbackHabitIconCoolOrange()}</div>
+              <strong>7日</strong>
+              <small>${weekUnlocked ? "サングラス!" : `${Math.max(7 - streak, 0)}日で ひらく`}</small>
+            </div>
+            <div class="habit-badge ${fortnightUnlocked ? "unlocked" : "locked"}">
+              <div class="habit-icon-stack single">${renderFallbackHabitIconCreativePurple()}</div>
+              <strong>14日</strong>
+              <small>${fortnightUnlocked ? "クリエイター!" : `${Math.max(14 - streak, 0)}日で ひらく`}</small>
+            </div>
+          </div>
+        `;
+      }
+
+      if (!window.__habitStripPatched) {
+        if (typeof updateTopStats === "function") {
+          const originalUpdateTopStats = updateTopStats;
+          updateTopStats = function patchedUpdateTopStats() {
+            originalUpdateTopStats();
+            if (typeof renderHabitStrip === "function") {
+              renderHabitStrip();
+              return;
+            }
+            renderFallbackHabitStrip();
+          };
+        }
+        window.__habitStripPatched = true;
+      }
+
+      if (typeof renderHabitStrip === "function") {
+        renderHabitStrip();
+      } else {
+        renderFallbackHabitStrip();
+      }
+    </script>
   </body>
 </html>
