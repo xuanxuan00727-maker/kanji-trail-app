@@ -342,6 +342,11 @@ body::before {
   gap: 10px;
 }
 
+.stats-stack {
+  display: grid;
+  gap: 12px;
+}
+
 .stat-pill {
   padding: 14px 14px 12px;
   border-radius: 18px;
@@ -364,6 +369,168 @@ body::before {
   display: block;
   margin-top: 6px;
   font-size: 1.15rem;
+}
+
+.habit-strip {
+  padding: 14px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 2px solid rgba(255, 255, 255, 0.34);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.habit-strip-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 12px;
+  color: white;
+}
+
+.habit-strip-head strong,
+.habit-strip-head span,
+.habit-strip-head b {
+  display: block;
+}
+
+.habit-strip-head strong {
+  font-size: 0.98rem;
+}
+
+.habit-strip-head span {
+  margin-top: 3px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.habit-strip-head b {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.habit-badge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.habit-badge {
+  padding: 10px 8px 12px;
+  border-radius: 18px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid rgba(255, 255, 255, 0.94);
+  box-shadow: inset 0 -4px 0 rgba(23, 49, 79, 0.08);
+  transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+}
+
+.habit-badge.active,
+.habit-badge.unlocked,
+.habit-badge.complete {
+  transform: translateY(-1px);
+  box-shadow: inset 0 -4px 0 rgba(23, 49, 79, 0.08), 0 12px 18px rgba(15, 44, 77, 0.14);
+}
+
+.habit-badge.locked {
+  background: rgba(242, 247, 252, 0.88);
+}
+
+.habit-badge.complete {
+  background: linear-gradient(180deg, #ffffff, #eefdf2);
+}
+
+.habit-badge strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.95rem;
+  color: #1b3656;
+}
+
+.habit-badge small {
+  display: block;
+  margin-top: 4px;
+  color: #60748a;
+  line-height: 1.35;
+}
+
+.habit-icon-stack {
+  position: relative;
+  width: 72px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto 8px;
+}
+
+.habit-icon-stack.single {
+  display: grid;
+  place-items: center;
+}
+
+.habit-icon-frame {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: 22px;
+}
+
+.habit-icon-frame.is-animated {
+  isolation: isolate;
+}
+
+.habit-sprite-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.habit-sprite-image {
+  position: absolute;
+  display: block;
+  width: 360px;
+  max-width: none;
+  height: auto;
+  top: -72px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.sprite-today-1 {
+  left: -24px;
+}
+
+.sprite-today-2 {
+  left: -102px;
+}
+
+.sprite-week-7 {
+  left: -179px;
+}
+
+.sprite-day-14 {
+  left: -256px;
+}
+
+.habit-badge.today .habit-sprite-layer.secondary {
+  opacity: 0;
+}
+
+.habit-badge.today .habit-sprite-layer.primary {
+  animation: today-primary-fade 2.8s infinite;
+}
+
+.habit-badge.today .habit-sprite-layer.secondary {
+  animation: today-secondary-fade 2.8s infinite;
+}
+
+.habit-icon-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 8px 12px rgba(23, 49, 79, 0.16));
+}
+
+.habit-badge.locked .habit-icon-svg {
+  filter: grayscale(0.75) saturate(0.5) brightness(1.03) drop-shadow(0 8px 12px rgba(23, 49, 79, 0.08));
 }
 
 .dashboard {
@@ -947,39 +1114,7 @@ body::before {
 
 .gacha-showcase {
   margin-top: 14px;
-  border-radius: 20px;
-  padding: 20px;
-  background: linear-gradient(160deg, rgba(66, 175, 235, 0.18), rgba(255, 207, 92, 0.28));
-  border: 2px solid rgba(255, 255, 255, 0.72);
-}
-
-.gacha-card {
-  min-height: 180px;
-  padding: 18px;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(241, 248, 255, 0.98));
-  border: 2px solid rgba(255, 255, 255, 0.92);
-  box-shadow: inset 0 -5px 0 rgba(23, 49, 79, 0.06);
-}
-
-.gacha-card.rare {
-  background: linear-gradient(180deg, rgba(255, 243, 207, 0.96), rgba(255, 217, 130, 0.9));
-}
-
-.gacha-card.super {
-  background: linear-gradient(180deg, rgba(255, 225, 209, 0.98), rgba(255, 146, 110, 0.92));
-}
-
-.gacha-card h4 {
-  margin: 0;
-  font-family: var(--title-font);
-  font-size: 1.3rem;
-}
-
-.gacha-card p {
-  margin: 10px 0 0;
-  color: var(--muted);
-  line-height: 1.6;
+  padding: 8px 0 0;
 }
 
 .collection-grid {
@@ -989,24 +1124,221 @@ body::before {
   margin-top: 14px;
 }
 
-.collect-item {
+.proverb-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+  padding: 16px;
+  color: #203b61;
+  background:
+    radial-gradient(circle at 20% 16%, rgba(255, 255, 255, 0.6), transparent 16%),
+    radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.48), transparent 14%),
+    linear-gradient(180deg, #d7ecff 0%, #9ed0ff 48%, #7eb7f1 100%);
+  border: 4px solid #4f77b9;
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 255, 255, 0.34),
+    inset 0 -10px 20px rgba(48, 88, 141, 0.18),
+    0 14px 24px rgba(32, 66, 115, 0.16);
+}
+
+.proverb-card::before {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: 58px;
+  height: 58px;
+  border-radius: 0 18px 0 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.72));
+  box-shadow: -8px 8px 18px rgba(64, 96, 140, 0.18);
+  transform: rotate(4deg);
+}
+
+.proverb-card.rare {
+  background:
+    radial-gradient(circle at 20% 16%, rgba(255, 255, 255, 0.62), transparent 16%),
+    radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.5), transparent 14%),
+    linear-gradient(180deg, #dff2ff 0%, #a7dbff 46%, #78c8ff 100%);
+}
+
+.proverb-card.super {
+  background:
+    radial-gradient(circle at 20% 16%, rgba(255, 255, 255, 0.68), transparent 16%),
+    radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.54), transparent 14%),
+    linear-gradient(180deg, #ebf7ff 0%, #bfe5ff 38%, #85cfff 100%);
+}
+
+.proverb-card.compact {
   padding: 12px;
+  border-radius: 24px;
+}
+
+.proverb-card.compact::before {
+  width: 40px;
+  height: 40px;
+  right: 8px;
+  top: 7px;
+  border-radius: 0 14px 0 22px;
+}
+
+.proverb-ribbon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 12px 16px;
   border-radius: 18px;
-  background: linear-gradient(180deg, #ffffff, #eef7ff);
-  min-height: 112px;
-  border: 2px solid rgba(202, 224, 241, 0.85);
-  box-shadow: 0 8px 0 rgba(31, 72, 113, 0.06);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(244, 248, 255, 0.88));
+  border: 3px solid rgba(79, 119, 185, 0.74);
+  box-shadow: inset 0 -4px 0 rgba(79, 119, 185, 0.12);
 }
 
-.collect-item strong {
-  display: block;
-  font-size: 0.98rem;
+.proverb-ribbon span {
+  font-family: var(--title-font);
+  font-size: 1.18rem;
+  letter-spacing: 0.04em;
 }
 
-.collect-item small {
+.proverb-ribbon b {
+  font-size: 0.74rem;
+  color: #4b77aa;
+  background: rgba(127, 182, 241, 0.2);
+  border: 2px solid rgba(79, 119, 185, 0.22);
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+
+.proverb-card.compact .proverb-ribbon {
+  margin-bottom: 8px;
+  padding: 8px 12px;
+}
+
+.proverb-card.compact .proverb-ribbon span {
+  font-size: 0.9rem;
+}
+
+.proverb-card.compact .proverb-ribbon b {
+  font-size: 0.65rem;
+  padding: 4px 8px;
+}
+
+.proverb-stage {
+  position: relative;
+  z-index: 1;
+  min-height: 220px;
+  margin-bottom: 12px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(219, 238, 255, 0.92), rgba(144, 198, 246, 0.92)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent 55%);
+  border: 3px solid rgba(79, 119, 185, 0.54);
+  box-shadow: inset 0 -8px 18px rgba(54, 99, 152, 0.12);
+  overflow: hidden;
+}
+
+.proverb-card.compact .proverb-stage {
+  min-height: 160px;
+  margin-bottom: 10px;
+  border-radius: 18px;
+}
+
+.proverb-scene-svg {
+  width: 100%;
+  height: 100%;
   display: block;
-  margin-top: 8px;
-  color: var(--muted);
+}
+
+.proverb-lock {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid rgba(79, 119, 185, 0.34);
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #4f77b9;
+  letter-spacing: 0.08em;
+}
+
+.proverb-footer {
+  position: relative;
+  z-index: 1;
+  border-radius: 22px;
+  padding: 14px 16px 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(240, 246, 255, 0.92));
+  border: 3px solid rgba(79, 119, 185, 0.58);
+  box-shadow: inset 0 -6px 0 rgba(79, 119, 185, 0.08);
+}
+
+.proverb-card.compact .proverb-footer {
+  padding: 10px 12px 12px;
+  border-radius: 18px;
+}
+
+.proverb-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.proverb-chip,
+.proverb-reading {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.proverb-chip {
+  background: rgba(113, 186, 255, 0.18);
+  color: #3d6ba1;
+  border: 2px solid rgba(79, 119, 185, 0.18);
+}
+
+.proverb-reading {
+  background: rgba(255, 255, 255, 0.94);
+  color: #56749a;
+  border: 2px solid rgba(79, 119, 185, 0.14);
+}
+
+.proverb-title {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.35rem;
+  color: #26456d;
+}
+
+.proverb-summary,
+.proverb-support {
+  margin: 10px 0 0;
+  line-height: 1.65;
+  color: #4a6485;
+}
+
+.proverb-support {
+  font-weight: 700;
+  color: #355782;
+}
+
+.proverb-card.compact .proverb-title {
+  font-size: 1rem;
+}
+
+.proverb-card.compact .proverb-summary {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.proverb-card.compact .proverb-support {
+  display: none;
 }
 
 .track-panel {
@@ -1162,6 +1494,34 @@ body::before {
   }
 }
 
+@keyframes today-primary-fade {
+  0%,
+  42% {
+    opacity: 1;
+  }
+  50%,
+  92% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes today-secondary-fade {
+  0%,
+  42% {
+    opacity: 0;
+  }
+  50%,
+  92% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (max-width: 1180px) {
   .topbar {
     grid-template-columns: 1fr;
@@ -1197,6 +1557,99 @@ body::before {
   .answer-grid,
   .collection-grid {
     grid-template-columns: 1fr;
+  }
+
+  .habit-strip-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .habit-badge {
+    padding: 10px 6px 12px;
+  }
+
+  .habit-icon-stack {
+    width: 58px;
+  }
+
+  .habit-icon-frame {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+  }
+
+  .habit-sprite-image {
+    width: 290px;
+    top: -58px;
+  }
+
+  .sprite-today-1 {
+    left: -20px;
+  }
+
+  .sprite-today-2 {
+    left: -83px;
+  }
+
+  .sprite-week-7 {
+    left: -145px;
+  }
+
+  .sprite-day-14 {
+    left: -208px;
+  }
+
+  .habit-badge strong {
+    font-size: 0.88rem;
+  }
+
+  .habit-badge small {
+    font-size: 0.73rem;
+  }
+
+  .proverb-card {
+    padding: 12px;
+    border-radius: 24px;
+  }
+
+  .proverb-card::before {
+    width: 42px;
+    height: 42px;
+    border-radius: 0 14px 0 20px;
+  }
+
+  .proverb-ribbon {
+    padding: 8px 12px;
+    border-radius: 16px;
+  }
+
+  .proverb-ribbon span {
+    font-size: 0.92rem;
+  }
+
+  .proverb-ribbon b {
+    font-size: 0.64rem;
+    padding: 4px 8px;
+  }
+
+  .proverb-stage {
+    min-height: 178px;
+    border-radius: 18px;
+  }
+
+  .proverb-footer {
+    padding: 10px 12px 12px;
+    border-radius: 18px;
+  }
+
+  .proverb-title {
+    font-size: 1.04rem;
+  }
+
+  .proverb-summary,
+  .proverb-support {
+    font-size: 0.82rem;
+    line-height: 1.55;
   }
 
   .writing-support-grid {
