@@ -122,6 +122,15 @@
         inset: 0;
       }
 
+      .habit-icon-art {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        user-select: none;
+        pointer-events: none;
+      }
+
       .habit-sprite-image {
         position: absolute;
         display: block;
@@ -441,8 +450,8 @@
             <div class="habit-badge today ${completedToday ? "complete" : "active"}">
               <div class="habit-icon-stack">
                 <div class="habit-icon-frame is-animated">
-                  <img class="habit-sprite-layer primary habit-sprite-image sprite-today-1" src="./assets/icons/sprite.jpg" alt="" />
-                  <img class="habit-sprite-layer secondary habit-sprite-image sprite-today-2" src="./assets/icons/sprite.jpg" alt="" />
+                  <img class="habit-sprite-layer primary habit-icon-art" src="./assets/icons/today-1-mini.jpg" alt="" />
+                  <img class="habit-sprite-layer secondary habit-icon-art" src="./assets/icons/today-2-mini.jpg" alt="" />
                 </div>
               </div>
               <strong>きょう</strong>
@@ -451,7 +460,7 @@
             <div class="habit-badge ${weekUnlocked ? "unlocked" : "locked"}">
               <div class="habit-icon-stack single">
                 <div class="habit-icon-frame">
-                  <img class="habit-sprite-image sprite-week-7" src="./assets/icons/sprite.jpg" alt="" />
+                  <img class="habit-icon-art" src="./assets/icons/week-7-mini.jpg" alt="" />
                 </div>
               </div>
               <strong>7日</strong>
@@ -460,7 +469,7 @@
             <div class="habit-badge ${fortnightUnlocked ? "unlocked" : "locked"}">
               <div class="habit-icon-stack single">
                 <div class="habit-icon-frame">
-                  <img class="habit-sprite-image sprite-day-14" src="./assets/icons/sprite.jpg" alt="" />
+                  <img class="habit-icon-art" src="./assets/icons/day-14-mini.jpg" alt="" />
                 </div>
               </div>
               <strong>14日</strong>
