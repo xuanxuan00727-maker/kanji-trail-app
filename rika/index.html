@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>小学3年生 理科トレーニング</title>
+<style>
+body{margin:0;background:#f4f6fb;color:#1f2937;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}*{box-sizing:border-box}.wrap{max-width:900px;margin:auto;padding:16px}.card{background:white;border-radius:18px;padding:18px;margin-top:14px;box-shadow:0 5px 18px rgba(0,0,0,.08)}header{background:#3b5ccc;color:#fff;border-radius:18px;padding:20px}h1{margin:0 0 6px;font-size:26px}h2{margin:8px 0 14px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.lesson{padding:14px;border:2px solid #d7ddea;border-radius:14px;background:white;text-align:left}.lesson.active{border-color:#3b5ccc;background:#eef2ff}.lesson b{display:block;font-size:18px}.lesson span{font-size:13px;color:#667085}button{font:inherit}.btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700}.primary{background:#3b5ccc;color:#fff}.secondary{background:#e9edf5}.choices{display:grid;gap:10px;margin-top:18px}.choice{padding:15px;border:2px solid #d7ddea;border-radius:14px;background:#fff;text-align:left;font-size:19px}.choice.correct{background:#eaf8ef;border-color:#15803d}.choice.wrong{background:#fff0f0;border-color:#c62828}.q{font-size:23px;line-height:1.6;font-weight:800}.meta{color:#3b5ccc;font-weight:800;margin-bottom:8px}.explain{margin-top:14px;padding:14px;border-radius:12px;background:#f6f7fb;line-height:1.6}.hidden{display:none}.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.progress{height:12px;background:#e5e9f2;border-radius:99px;overflow:hidden;margin-top:16px}.progress div{height:100%;background:#3b5ccc}.score{font-size:60px;font-weight:900;color:#3b5ccc;text-align:center}.review{border-left:5px solid #d7ddea;padding:10px 12px;margin:10px 0;background:#fafbff}.review.ok{border-color:#15803d}.review.ng{border-color:#c62828}@media(max-width:600px){.grid{grid-template-columns:1fr 1fr}.q{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>小学（しょうがく）3年生（ねんせい） 理科（りか）トレーニング</h1><div>第（だい）5回（かい）〜第（だい）10回（かい）｜自動（じどう）採点（さいてん）</div></header>
+<section id="setup" class="card"><h2>学習（がくしゅう）する回（かい）を選（えら）んでください</h2><div id="lessonGrid" class="grid"></div><div class="row"><button id="start" class="btn primary">スタート</button><button id="selectToday" class="btn secondary">今日（きょう）：第5〜7回</button><button id="selectTomorrow" class="btn secondary">明日（あした）：第8〜10回</button></div></section>
+<section id="quiz" class="card hidden"><div id="meta" class="meta"></div><div id="question" class="q"></div><div id="choices" class="choices"></div><div id="explain" class="explain hidden"></div><div class="progress"><div id="bar" style="width:0%"></div></div><div class="row"><button id="next" class="btn primary hidden">次（つぎ）の問題（もんだい）</button><button id="quit" class="btn secondary">中断（ちゅうだん）</button></div></section>
+<section id="result" class="card hidden"><div id="score" class="score"></div><h2 id="title" style="text-align:center"></h2><div id="summary" style="text-align:center"></div><div class="row" style="justify-content:center"><button id="retry" class="btn primary">まちがい直（なお）し</button><button id="back" class="btn secondary">回（かい）を選（えら）び直（なお）す</button></div><div id="review"></div></section>
+</div>
+<script>
+const QUESTIONS=[
+{lesson:5,q:"花粉（かふん）をつくる部分（ぶぶん）はどれですか。",choices:["花（はな）びら","おしべ","めしべ","がく"],answer:1,explain:"おしべの先（さき）で花粉（かふん）がつくられます。"},
+{lesson:5,q:"成長（せいちょう）して実（み）や種子（しゅし）になる部分（ぶぶん）はどれですか。",choices:["花（はな）びら","おしべ","めしべ","がく"],answer:2,explain:"めしべは成長（せいちょう）して実（み）や種子（しゅし）になります。"},
+{lesson:5,q:"つぼみの中（なか）を守（まも）る部分（ぶぶん）はどれですか。",choices:["花（はな）びら","おしべ","めしべ","がく"],answer:3,explain:"がくは、つぼみの中（なか）を守（まも）ります。"},
+{lesson:5,q:"花（はな）びらの主（おも）なはたらきはどれですか。",choices:["水（みず）を吸（す）う","虫（むし）をさそう","花粉（かふん）をつくる","根（ね）を支（ささ）える"],answer:1,explain:"目立（めだ）つ色（いろ）やにおいで虫（むし）をさそいます。"},
+{lesson:5,q:"黄色（きいろ）い花（はな）をさかせる植物（しょくぶつ）はどれですか。",choices:["タンポポ","ヒガンバナ","ナズナ","アサガオ"],answer:0,explain:"タンポポは黄色（きいろ）い花（はな）をさかせます。"},
+{lesson:5,q:"白（しろ）い花（はな）をさかせる植物（しょくぶつ）はどれですか。",choices:["ナズナ","ヒガンバナ","キキョウ","タンポポ"],answer:0,explain:"ナズナは白（しろ）い花（はな）をさかせます。"},
+{lesson:5,q:"木（き）にさく花（はな）はどれですか。",choices:["サクラ","タンポポ","アサガオ","ナズナ"],answer:0,explain:"サクラは木（き）にさく花（はな）です。"},
+{lesson:5,q:"外国（がいこく）から入（はい）り、日本（にほん）で野生化（やせいか）した植物（しょくぶつ）を何（なん）といいますか。",choices:["木本植物（もくほんしょくぶつ）","帰化植物（きかしょくぶつ）","単子葉植物（たんしようしょくぶつ）","水生植物（すいせいしょくぶつ）"],answer:1,explain:"外国（がいこく）から入（はい）って野生化（やせいか）した植物（しょくぶつ）を帰化植物（きかしょくぶつ）といいます。"},
+{lesson:6,q:"根（ね）のはたらきとして正（ただ）しいものはどれですか。",choices:["花粉（かふん）をつくる","植物（しょくぶつ）を支（ささ）え、水分（すいぶん）などを吸（す）う","光合成（こうごうせい）だけをする","虫（むし）をさそう"],answer:1,explain:"根（ね）は植物（しょくぶつ）を支（ささ）え、水（みず）や養分（ようぶん）を吸（す）います。"},
+{lesson:6,q:"葉（は）が光（ひかり）を使（つか）って養分（ようぶん）をつくるはたらきを何（なん）といいますか。",choices:["蒸散（じょうさん）","光合成（こうごうせい）","受粉（じゅふん）","羽化（うか）"],answer:1,explain:"葉（は）が光（ひかり）を使（つか）って養分（ようぶん）をつくることを光合成（こうごうせい）といいます。"},
+{lesson:6,q:"葉（は）から水蒸気（すいじょうき）を出（だ）すはたらきを何（なん）といいますか。",choices:["蒸散（じょうさん）","光合成（こうごうせい）","変態（へんたい）","受粉（じゅふん）"],answer:0,explain:"葉（は）から水蒸気（すいじょうき）を出（だ）すことを蒸散（じょうさん）といいます。"},
+{lesson:6,q:"単子葉植物（たんしようしょくぶつ）の葉脈（ようみゃく）はどれですか。",choices:["網状脈（もうじょうみゃく）","平行脈（へいこうみゃく）","主根（しゅこん）","側根（そっこん）"],answer:1,explain:"単子葉植物（たんしようしょくぶつ）の葉脈（ようみゃく）は平行脈（へいこうみゃく）です。"},
+{lesson:6,q:"双子葉植物（そうしようしょくぶつ）の根（ね）はどれですか。",choices:["主根（しゅこん）と側根（そっこん）","ひげ根（ね）","根（ね）がない","すべて水中根（すいちゅうこん）"],answer:0,explain:"双子葉植物（そうしようしょくぶつ）は太（ふと）い主根（しゅこん）と側根（そっこん）をもちます。"},
+{lesson:6,q:"イネはどちらですか。",choices:["単子葉植物（たんしようしょくぶつ）","双子葉植物（そうしようしょくぶつ）","昆虫（こんちゅう）","岩石（がんせき）"],answer:0,explain:"イネは単子葉植物（たんしようしょくぶつ）です。"},
+{lesson:6,q:"アサガオはどちらですか。",choices:["単子葉植物（たんしようしょくぶつ）","双子葉植物（そうしようしょくぶつ）","菌類（きんるい）","昆虫（こんちゅう）"],answer:1,explain:"アサガオは双子葉植物（そうしようしょくぶつ）です。"},
+{lesson:7,q:"昆虫（こんちゅう）の体（からだ）は、どの3つに分（わ）かれますか。",choices:["頭（あたま）・むね・はら","頭（あたま）・胴（どう）・尾（お）","前（まえ）・中（なか）・後（うし）ろ","根（ね）・くき・葉（は）"],answer:0,explain:"昆虫（こんちゅう）の体（からだ）は、頭（あたま）・むね・はらの3つに分（わ）かれます。"},
+{lesson:7,q:"昆虫（こんちゅう）のあしは何本（なんぼん）ありますか。",choices:["4本（ほん）","6本（ぽん）","8本（ぽん）","10本（ぽん）"],answer:1,explain:"昆虫（こんちゅう）のあしは6本（ぽん）です。"},
+{lesson:7,q:"昆虫（こんちゅう）のあしは体（からだ）のどこから生（は）えていますか。",choices:["頭（あたま）","むね","はら","触角（しょっかく）"],answer:1,explain:"6本（ぽん）のあしは、すべてむねから生（は）えています。"},
+{lesson:7,q:"触角（しょっかく）のはたらきはどれですか。",choices:["音（おと）やにおいを感（かん）じる","水（みず）を吸（す）う","羽（はね）を動（うご）かす","卵（たまご）を守（まも）る"],answer:0,explain:"触角（しょっかく）は音（おと）やにおいなどを感（かん）じます。"},
+{lesson:7,q:"複眼（ふくがん）とはどのような目（め）ですか。",choices:["小（ちい）さな目（め）が集（あつ）まった目（め）","明暗（めいあん）だけを感（かん）じる目（め）","目（め）がないこと","1つの大（おお）きな目（め）"],answer:0,explain:"複眼（ふくがん）は小（ちい）さな個眼（こがん）が集（あつ）まった目（め）です。"},
+{lesson:7,q:"昆虫（こんちゅう）が空気（くうき）を取（と）り入（い）れる穴（あな）を何（なん）といいますか。",choices:["気門（きもん）","口門（こうもん）","葉脈（ようみゃく）","道管（どうかん）"],answer:0,explain:"昆虫（こんちゅう）は気門（きもん）から空気（くうき）を取（と）り入（い）れます。"},
+{lesson:7,q:"クモは昆虫（こんちゅう）ですか。",choices:["はい","いいえ"],answer:1,explain:"クモは昆虫（こんちゅう）ではありません。あしは8本（ぽん）です。"},
+{lesson:7,q:"モンシロチョウの成虫（せいちゅう）の口（くち）はどれですか。",choices:["かむ口（くち）","吸（す）う口（くち）","なめる口（くち）","口（くち）がない"],answer:1,explain:"チョウの成虫（せいちゅう）は、みつを吸（す）う口（くち）をもちます。"},
+{lesson:8,q:"セミの育（そだ）ち方（かた）はどれですか。",choices:["完全変態（かんぜんへんたい）","不完全変態（ふかんぜんへんたい）"],answer:1,explain:"セミは、さなぎの時期（じき）がない不完全変態（ふかんぜんへんたい）です。"},
+{lesson:8,q:"トンボの幼虫（ようちゅう）を何（なん）といいますか。",choices:["ヤゴ","ボウフラ","ウジ","イモムシ"],answer:0,explain:"トンボの幼虫（ようちゅう）はヤゴです。"},
+{lesson:8,q:"アリとアブラムシの関係（かんけい）として正（ただ）しいものはどれですか。",choices:["たがいに助（たす）け合（あ）う","いつも食（た）べ合（あ）う","関係（かんけい）がない","同（おな）じ昆虫（こんちゅう）である"],answer:0,explain:"アリはアブラムシを守（まも）り、アブラムシの甘（あま）い液（えき）をもらいます。"},
+{lesson:9,q:"モンシロチョウの育（そだ）ち方（かた）はどれですか。",choices:["完全変態（かんぜんへんたい）","不完全変態（ふかんぜんへんたい）"],answer:0,explain:"モンシロチョウは卵（たまご）→幼虫（ようちゅう）→さなぎ→成虫（せいちゅう）の完全変態（かんぜんへんたい）です。"},
+{lesson:9,q:"カブトムシの育（そだ）ち方（かた）はどれですか。",choices:["完全変態（かんぜんへんたい）","不完全変態（ふかんぜんへんたい）"],answer:0,explain:"カブトムシはさなぎの時期（じき）がある完全変態（かんぜんへんたい）です。"},
+{lesson:9,q:"カの幼虫（ようちゅう）を何（なん）といいますか。",choices:["ヤゴ","ボウフラ","ウジ","イモムシ"],answer:1,explain:"カの幼虫（ようちゅう）はボウフラです。"},
+{lesson:10,q:"れき・砂（すな）・どろが積（つ）み重（かさ）なってできる岩石（がんせき）を何（なん）といいますか。",choices:["堆積岩（たいせきがん）","火成岩（かせいがん）","変成岩（へんせいがん）","鉱物（こうぶつ）"],answer:0,explain:"れき・砂（すな）・どろなどが積（つ）み重（かさ）なってできた岩石（がんせき）は堆積岩（たいせきがん）です。"},
+{lesson:10,q:"マグマが冷（ひ）えて固（かた）まってできる岩石（がんせき）を何（なん）といいますか。",choices:["堆積岩（たいせきがん）","火成岩（かせいがん）","変成岩（へんせいがん）","石灰岩（せっかいがん）"],answer:1,explain:"マグマが冷（ひ）えて固（かた）まってできる岩石（がんせき）は火成岩（かせいがん）です。"},
+{lesson:10,q:"生（い）き物（もの）のからだやあとが残（のこ）ったものを何（なん）といいますか。",choices:["化石（かせき）","鉱物（こうぶつ）","土（つち）","結晶（けっしょう）"],answer:0,explain:"昔（むかし）の生（い）き物（もの）のからだやあとが残（のこ）ったものを化石（かせき）といいます。"}
+];
+const LESSONS={5:"いろいろな花（はな）の色（いろ）",6:"植物（しょくぶつ）のからだ",7:"昆虫（こんちゅう）のからだ",8:"不完全変態（ふかんぜんへんたい）",9:"完全変態（かんぜんへんたい）",10:"地面（じめん）に見（み）える石（いし）"};
+let selected=new Set([5,6,7]),items=[],index=0,answers=[],locked=false;const $=id=>document.getElementById(id);function shuffle(a){return[...a].sort(()=>Math.random()-.5)}
+function renderLessons(){const grid=$("lessonGrid");grid.innerHTML="";Object.keys(LESSONS).forEach(k=>{const n=Number(k),b=document.createElement("button");b.className="lesson"+(selected.has(n)?" active":"");b.innerHTML="<b>第（だい）"+n+"回（かい）</b><span>"+LESSONS[n]+"</span>";b.onclick=()=>{selected.has(n)?selected.delete(n):selected.add(n);renderLessons()};grid.appendChild(b)})}
+function start(custom){items=custom||shuffle(QUESTIONS.filter(x=>selected.has(x.lesson)));if(!items.length){alert("回（かい）を選（えら）んでください。");return}index=0;answers=[];$("setup").classList.add("hidden");$("result").classList.add("hidden");$("quiz").classList.remove("hidden");renderQ()}
+function renderQ(){locked=false;const it=items[index];$("meta").textContent="第（だい）"+it.lesson+"回（かい）　問題（もんだい） "+(index+1)+" / "+items.length;$("question").textContent=it.q;$("choices").innerHTML="";$("explain").classList.add("hidden");$("next").classList.add("hidden");it.choices.forEach((c,i)=>{const b=document.createElement("button");b.className="choice";b.textContent=String.fromCharCode(65+i)+"　"+c;b.onclick=()=>choose(i,b);$("choices").appendChild(b)});$("bar").style.width=index/items.length*100+"%"}
+function choose(i,btn){if(locked)return;locked=true;const it=items[index];answers[index]=i;[...$("choices").children].forEach((b,j)=>{b.disabled=true;if(j===it.answer)b.classList.add("correct")});if(i!==it.answer)btn.classList.add("wrong");$("explain").textContent=(i===it.answer?"正解（せいかい）！ ":"おしい！ ")+it.explain;$("explain").classList.remove("hidden");$("next").classList.remove("hidden")}
+function next(){if(index<items.length-1){index++;renderQ()}else finish()}
+function finish(){$("quiz").classList.add("hidden");$("result").classList.remove("hidden");let correct=items.filter((q,i)=>answers[i]===q.answer).length,pct=Math.round(correct/items.length*100);$("score").textContent=pct+"点（てん）";$("title").textContent=pct>=90?"すばらしい！":pct>=75?"よくできました！":"まちがい直（なお）しをしよう";$("summary").textContent=items.length+"問（もん）のうち "+correct+"問（もん）正解（せいかい）";const r=$("review");r.innerHTML="";items.forEach((q,i)=>{const ok=answers[i]===q.answer,d=document.createElement("div");d.className="review "+(ok?"ok":"ng");d.innerHTML="<b>"+(i+1)+". "+q.q+"</b><br>あなたの答（こた）え："+(q.choices[answers[i]]||"未回答（みかいとう）")+"<br>正解（せいかい）："+q.choices[q.answer]+"<br><small>"+q.explain+"</small>";r.appendChild(d)})}
+$("start").onclick=()=>start();$("next").onclick=next;$("quit").onclick=()=>{$("quiz").classList.add("hidden");$("setup").classList.remove("hidden")};$("back").onclick=()=>{$("result").classList.add("hidden");$("setup").classList.remove("hidden")};$("retry").onclick=()=>{const wrong=items.filter((q,i)=>answers[i]!==q.answer);if(!wrong.length){alert("全問（ぜんもん）正解（せいかい）です！");return}start(shuffle(wrong))};$("selectToday").onclick=()=>{selected=new Set([5,6,7]);renderLessons()};$("selectTomorrow").onclick=()=>{selected=new Set([8,9,10]);renderLessons()};renderLessons();
+</script>
+</body>
+</html>
