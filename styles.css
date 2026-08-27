@@ -1743,3 +1743,27 @@ body::before {
     margin-top: 0;
   }
 }
+
+.kanji-poster {
+  background:
+    linear-gradient(rgba(255, 120, 120, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 120, 120, 0.16) 1px, transparent 1px),
+    #fffdf8;
+  background-size: 50% 50%;
+}
+
+.kanji-glyph,
+.ghost-kanji,
+.stroke-hint-char {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif CJK JP", serif;
+}
+
+.canvas-frame {
+  background:
+    linear-gradient(rgba(239, 91, 91, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(239, 91, 91, 0.16) 1px, transparent 1px),
+    linear-gradient(45deg, transparent calc(50% - 1px), rgba(239, 91, 91, 0.14) calc(50% - 1px), rgba(239, 91, 91, 0.14) calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(-45deg, transparent calc(50% - 1px), rgba(239, 91, 91, 0.14) calc(50% - 1px), rgba(239, 91, 91, 0.14) calc(50% + 1px), transparent calc(50% + 1px)),
+    #fffef9;
+  background-size: 50% 50%, 50% 50%, 100% 100%, 100% 100%, auto;
+}
