@@ -1,108 +1,86 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>汉字闯关考试</title>
-<style>
-:root{--bg:#f5f7fb;--card:#fff;--text:#202638;--muted:#7d8798;--line:#e5e8ef;--blue:#5d69f7;--red:#e45353;--green:#179b68}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;color:var(--text)}.wrap{max-width:760px;margin:0 auto;padding:24px 18px 48px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px}h1{font-size:30px;margin:0 0 4px}.sub{color:var(--muted);font-size:14px}.btn{border:0;border-radius:16px;padding:13px 18px;font-size:17px;font-weight:700;background:#eef0f6;color:#242938;cursor:pointer;touch-action:manipulation}.btn.primary{background:var(--blue);color:#fff}.btn.good{background:#e8f7f1;color:var(--green)}.btn.bad{background:#fff0f0;color:var(--red)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f0f2f7;border-radius:18px;padding:14px;text-align:center}.stat b{font-size:26px;display:block}.stat span{font-size:14px;color:var(--muted)}.progress{height:9px;background:#e9ecf3;border-radius:999px;margin:18px 0;overflow:hidden}.progress i{display:block;height:100%;background:var(--blue);width:0;transition:.25s}.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:30px 22px;box-shadow:0 10px 28px rgba(30,40,70,.06);text-align:center}.label{color:var(--muted);font-size:16px}.wordReading{font-size:27px;font-weight:700;margin:16px 0 6px;color:#596173;letter-spacing:2px}.wordPrompt{font-size:54px;font-weight:800;letter-spacing:4px;margin:2px 0 20px}.padWrap{position:relative;width:min(86vw,360px);height:min(86vw,360px);margin:0 auto;border:3px solid #dfe3eb;border-radius:24px;background:#fff;overflow:hidden}.padWrap:before,.padWrap:after{content:"";position:absolute;pointer-events:none;opacity:.45}.padWrap:before{left:50%;top:0;bottom:0;border-left:1px dashed #c9ced8}.padWrap:after{top:50%;left:0;right:0;border-top:1px dashed #c9ced8}canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}.padActions{display:flex;justify-content:center;gap:10px;margin-top:12px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.feedback{margin-top:16px;border-radius:18px;padding:14px;font-size:17px;display:none}.feedback.show{display:block}.answerReveal{display:none;margin-top:18px;padding:18px;border-radius:20px;background:#fff8e9}.answerReveal.show{display:block}.answerReveal .full{font-size:22px;color:#7a6135}.answerReveal .big{font-size:70px;font-weight:800;margin:6px 0}.judge{display:grid;grid-template-columns:1fr 1fr;gap:10px}.teach{display:none;margin-top:18px;padding:20px;border-radius:20px;background:#fff8e9}.teach.show{display:block}.teach .big{font-size:64px;font-weight:800;margin:4px 0}.small{font-size:13px;color:var(--muted);line-height:1.5}.settings{display:none;margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:20px}.settings.show{display:block}.settings textarea{width:100%;min-height:240px;border:2px solid var(--line);border-radius:16px;padding:12px;font-size:15px;line-height:1.5}.complete{display:none;text-align:center}.complete.show{display:block}.complete .emoji{font-size:70px}.hidden{display:none!important}@media(max-width:560px){.wrap{padding-top:18px}.top{align-items:center}h1{font-size:26px}.wordReading{font-size:23px}.wordPrompt{font-size:46px}.card{padding:26px 14px}.btn{font-size:16px;padding:13px 12px}}
-</style>
-</head>
-<body><div class="wrap">
-<div class="top"><div><h1>汉字闯关考试</h1><div class="sub">看词语手写汉字，错题练3遍后自动回炉</div></div><button class="btn" id="settingsBtn">设置</button></div>
-<div class="stats"><div class="stat"><b id="leftCount">0</b><span>待掌握</span></div><div class="stat"><b id="rightCount">0</b><span>答对</span></div><div class="stat"><b id="wrongCount">0</b><span>错题</span></div></div>
-<div class="progress"><i id="progressBar"></i></div>
-<section class="card" id="quizCard">
-<div class="label">把□里的汉字写在田字格里</div><div class="wordReading" id="wordReading">—</div><div class="wordPrompt" id="wordPrompt">—</div>
-<div class="padWrap"><canvas id="writeCanvas"></canvas></div>
-<div class="padActions"><button class="btn" id="clearBtn">清除重写</button></div>
-<div class="actions"><button class="btn" id="hintBtn">提示</button><button class="btn primary" id="checkBtn">检查答案</button></div>
-<div class="feedback" id="feedback"></div>
-<div class="answerReveal" id="answerReveal"><div class="full" id="fullWord"></div><div class="big" id="answerChar"></div><div class="small">看看自己刚才写的，判断是否写对。</div><div class="judge"><button class="btn bad" id="wrongBtn">写错了</button><button class="btn good" id="rightBtn">写对了</button></div></div>
-<div class="teach" id="teach"><div class="small">这个字再练3遍：</div><div class="big" id="teachChar"></div><div class="small" id="copyMsg">还要写3遍</div><div class="padWrap" style="margin-top:12px"><canvas id="practiceCanvas"></canvas></div><div class="padActions"><button class="btn" id="practiceClear">清除</button><button class="btn primary" id="practiceDone">写完这一遍</button></div></div>
-</section>
-<section class="complete" id="complete"><div class="emoji">🏆</div><h2>全部都会了！</h2><p>本轮所有汉字都已经答对。</p><button class="btn primary" id="restartBtn">再考一轮</button></section>
-<section class="settings" id="settings"><h3>题库设置</h3><p class="small">每行格式：要考的汉字|词语|词语读音，例如：世|世界|せかい</p><textarea id="bankEditor"></textarea><div class="actions"><button class="btn" id="cancelSettings">取消</button><button class="btn primary" id="saveSettings">保存并重新开始</button></div></section>
-</div>
-<script>
-(function(){
-const DEFAULT=`世|世界|せかい
-全|全部|ぜんぶ
-練|練習|れんしゅう
-住|住所|じゅうしょ
-面|面積|めんせき
-湖|湖畔|こはん
-県|県内|けんない
-相|相手|あいて
-具|道具|どうぐ
-運|運動|うんどう
-定|予定|よてい
-部|部分|ぶぶん
-秒|秒針|びょうしん
-服|洋服|ようふく
-景|景色|けしき
-童|児童|じどう
-指|指示|しじ
-昔|昔話|むかしばなし
-題|問題|もんだい
-予|予定|よてい
-球|野球|やきゅう
-有|有名|ゆうめい
-悲|悲しい|かなしい
-反|反対|はんたい
-坂|坂道|さかみち
-仕|仕事|しごと
-登|登場|とうじょう
-緑|緑色|みどりいろ
-村|村人|むらびと
-助|助ける|たすける
-岸|海岸|かいがん
-路|道路|どうろ
-氷|氷水|こおりみず
-鉄|鉄道|てつどう
-農|農業|のうぎょう
-館|図書館|としょかん
-横|横道|よこみち
-区|地区|ちく
-感|感想|かんそう
-安|安全|あんぜん
-平|平和|へいわ
-事|仕事|しごと
-酒|お酒|おさけ
-温|温度|おんど
-所|場所|ばしょ
-次|次回|じかい
-界|世界|せかい
-深|深い|ふかい
-葉|葉っぱ|はっぱ
-詩|詩集|ししゅう
-落|落ちる|おちる
-決|決める|きめる
-問|問題|もんだい
-使|使う|つかう
-味|味見|あじみ
-動|運動|うんどう
-進|進む|すすむ
-始|始める|はじめる`;
-let bank=[],queue=[],mastered=new Set(),wrong=new Set(),current=null,copyLeft=0,mode='quiz';
-const $=id=>document.getElementById(id);
-function safeGet(k){try{return localStorage.getItem(k)}catch(e){return null}}function safeSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-function parseBank(txt){return txt.split(/\n+/).map(s=>s.trim()).filter(Boolean).map(line=>{const [char,word,reading]=line.split('|');return {char:(char||'').trim(),word:(word||'').trim(),reading:(reading||'').trim()}}).filter(x=>x.char&&x.word&&x.reading)}
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>汉字闯关考试</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;color:#202638}.wrap{max-width:760px;margin:auto;padding:20px 16px 50px}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}h1{margin:0;font-size:28px}.sub{color:#7d8798;font-size:14px;margin-top:4px}.btn{border:0;border-radius:15px;padding:12px 16px;font-size:16px;font-weight:700;background:#eef0f6;color:#252b39}.primary{background:#5d69f7;color:#fff}.good{background:#e7f8f0;color:#117653}.bad{background:#fff0f0;color:#bd3d3d}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:18px}.stat{background:#eef1f6;border-radius:16px;padding:12px;text-align:center}.stat b{display:block;font-size:25px}.stat span{font-size:13px;color:#7d8798}.progress{height:8px;background:#e7eaf1;border-radius:999px;margin:16px 0;overflow:hidden}.progress i{display:block;height:100%;width:0;background:#5d69f7}.card{background:#fff;border:1px solid #e3e7ee;border-radius:26px;padding:26px 18px;box-shadow:0 10px 28px rgba(30,40,70,.06);text-align:center}.reading{font-size:24px;font-weight:700;color:#626a7a;letter-spacing:2px}.word{font-size:50px;font-weight:800;margin:6px 0 18px}.strokeInfo{font-size:15px;color:#6a7280;margin:8px 0 12px}.strokeInfo strong{font-size:20px;color:#4d57ce}.pad{position:relative;width:min(82vw,350px);height:min(82vw,350px);margin:auto;border:3px solid #dfe3eb;border-radius:22px;background:#fff;overflow:hidden}.pad:before,.pad:after{content:"";position:absolute;pointer-events:none;opacity:.55}.pad:before{left:50%;top:0;bottom:0;border-left:1px dashed #c4cad5}.pad:after{top:50%;left:0;right:0;border-top:1px dashed #c4cad5}canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}.padBtns{display:flex;justify-content:center;gap:10px;margin-top:11px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}.feedback{display:none;margin-top:14px;padding:13px;border-radius:16px;font-size:16px}.feedback.show{display:block}.feedback.ok{background:#eaf8f2;color:#137452}.feedback.err{background:#fff0f0;color:#b33c3c}.reveal,.teach{display:none;margin-top:16px;padding:17px;border-radius:18px;background:#fff8e9}.reveal.show,.teach.show{display:block}.big{font-size:68px;font-weight:800}.judge{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.small{font-size:13px;color:#777f8d;line-height:1.5}.hidden{display:none!important}.complete{display:none;text-align:center}.complete.show{display:block}.complete .emoji{font-size:70px}@media(max-width:560px){h1{font-size:25px}.word{font-size:44px}.card{padding:23px 12px}.btn{font-size:15px;padding:12px}}
+</style></head><body><div class="wrap">
+<div class="top"><div><h1>汉字闯关考试</h1><div class="sub">直接手写，系统自动数笔画；错题练3遍再回炉</div></div><button class="btn" id="restartTop">重来</button></div>
+<div class="stats"><div class="stat"><b id="left">0</b><span>待掌握</span></div><div class="stat"><b id="right">0</b><span>答对</span></div><div class="stat"><b id="wrong">0</b><span>错题</span></div></div><div class="progress"><i id="bar"></i></div>
+<section class="card" id="card"><div class="small">把□里的汉字写出来</div><div class="reading" id="reading">—</div><div class="word" id="word">—</div><div class="strokeInfo">已写 <strong id="strokeNow">0</strong> 画</div>
+<div class="pad"><canvas id="canvas"></canvas></div><div class="padBtns"><button class="btn" id="undo">撤销一画</button><button class="btn" id="clear">清除</button></div><div class="actions"><button class="btn" id="hint">提示</button><button class="btn primary" id="check">检查</button></div><div class="feedback" id="feedback"></div>
+<div class="reveal" id="reveal"><div class="small" id="full"></div><div class="big" id="answer"></div><div class="small" id="strokeExpected"></div><div class="judge"><button class="btn bad" id="shapeWrong">字形不对</button><button class="btn good" id="shapeRight">字形正确</button></div></div>
+<div class="teach" id="teach"><div class="small">正确写法</div><div class="big" id="teachChar"></div><div class="small" id="practiceMsg"></div><div class="pad" style="margin-top:12px"><canvas id="practice"></canvas></div><div class="strokeInfo">本遍已写 <strong id="practiceStroke">0</strong> 画</div><div class="padBtns"><button class="btn" id="practiceUndo">撤销一画</button><button class="btn" id="practiceClear">清除</button><button class="btn primary" id="practiceDone">完成这一遍</button></div></div></section>
+<section class="complete" id="complete"><div class="emoji">🏆</div><h2>全部都会了！</h2><button class="btn primary" id="restart">再考一轮</button></section>
+</div><script>
+(()=>{
+const DATA=`世|世界|せかい|5
+全|全部|ぜんぶ|6
+練|練習|れんしゅう|14
+住|住所|じゅうしょ|7
+面|面積|めんせき|9
+湖|湖畔|こはん|12
+県|県内|けんない|9
+相|相手|あいて|9
+具|道具|どうぐ|8
+運|運動|うんどう|12
+定|予定|よてい|8
+部|部分|ぶぶん|11
+秒|秒針|びょうしん|9
+服|洋服|ようふく|8
+景|景色|けしき|12
+童|児童|じどう|12
+指|指示|しじ|9
+昔|昔話|むかしばなし|8
+題|問題|もんだい|18
+予|予定|よてい|4
+球|野球|やきゅう|11
+有|有名|ゆうめい|6
+悲|悲しい|かなしい|12
+反|反対|はんたい|4
+坂|坂道|さかみち|7
+仕|仕事|しごと|5
+登|登場|とうじょう|12
+緑|緑色|みどりいろ|14
+村|村人|むらびと|7
+助|助ける|たすける|7
+岸|海岸|かいがん|8
+路|道路|どうろ|13
+氷|氷水|こおりみず|5
+鉄|鉄道|てつどう|13
+農|農業|のうぎょう|13
+館|図書館|としょかん|16
+横|横道|よこみち|15
+区|地区|ちく|4
+感|感想|かんそう|13
+安|安全|あんぜん|6
+平|平和|へいわ|5
+事|仕事|しごと|8
+酒|お酒|おさけ|10
+温|温度|おんど|12
+所|場所|ばしょ|8
+次|次回|じかい|6
+界|世界|せかい|9
+深|深い|ふかい|11
+葉|葉っぱ|はっぱ|12
+詩|詩集|ししゅう|13
+落|落ちる|おちる|12
+決|決める|きめる|7
+問|問題|もんだい|11
+使|使う|つかう|8
+味|味見|あじみ|8
+動|運動|うんどう|11
+進|進む|すすむ|11
+始|始める|はじめる|8`;
+const bank=DATA.split('\n').map(x=>{const[a,b,c,d]=x.split('|');return{char:a,word:b,reading:c,strokes:+d}}),$=id=>document.getElementById(id);let q=[],mastered=new Set(),wrong=new Set(),cur=null,mode='quiz',practiceLeft=3;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function maskedWord(item){return item.word.replace(item.char,'□')}
-function setupPad(canvas){const ctx=canvas.getContext('2d');let drawing=false,moved=false;function size(){const r=canvas.getBoundingClientRect(),d=window.devicePixelRatio||1;canvas.width=Math.round(r.width*d);canvas.height=Math.round(r.height*d);ctx.setTransform(d,0,0,d,0,0);ctx.lineWidth=8;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#1f2635'}function pos(e){const r=canvas.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}}canvas.addEventListener('pointerdown',e=>{drawing=true;moved=false;canvas.setPointerCapture(e.pointerId);const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y)});canvas.addEventListener('pointermove',e=>{if(!drawing)return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();moved=true});canvas.addEventListener('pointerup',()=>drawing=false);canvas.addEventListener('pointercancel',()=>drawing=false);size();window.addEventListener('resize',size);return {clear(){ctx.clearRect(0,0,canvas.width,canvas.height);moved=false},hasInk(){return moved}}}
-const writePad=setupPad($('writeCanvas')),practicePad=setupPad($('practiceCanvas'));
-function init(){bank=parseBank(safeGet('kanji_bank_v3')||DEFAULT);$('bankEditor').value=bank.map(x=>`${x.char}|${x.word}|${x.reading}`).join('\n');queue=shuffle(bank.slice());mastered.clear();wrong.clear();$('complete').classList.remove('show');$('quizCard').classList.remove('hidden');next();updateStats()}
-function updateStats(){const total=bank.length,done=mastered.size;$('leftCount').textContent=Math.max(0,total-done);$('rightCount').textContent=done;$('wrongCount').textContent=wrong.size;$('progressBar').style.width=(total?done/total*100:0)+'%'}
-function next(){if(mastered.size>=bank.length){finish();return}while(queue.length&&mastered.has(queue[0].char))queue.shift();if(!queue.length)queue=shuffle(bank.filter(x=>!mastered.has(x.char)));current=queue.shift();mode='quiz';$('wordReading').textContent=current.reading;$('wordPrompt').textContent=maskedWord(current);$('feedback').className='feedback';$('feedback').textContent='';$('answerReveal').classList.remove('show');$('teach').classList.remove('show');writePad.clear();practicePad.clear()}
-$('clearBtn').onclick=()=>writePad.clear();$('practiceClear').onclick=()=>practicePad.clear();
-$('hintBtn').onclick=()=>{if(current){$('feedback').className='feedback show';$('feedback').textContent=`提示：完整词语是「${current.word}」`}};
-$('checkBtn').onclick=()=>{if(mode!=='quiz')return;if(!writePad.hasInk()){ $('feedback').className='feedback show';$('feedback').textContent='先在田字格里写一个汉字。';return}mode='judge';$('answerChar').textContent=current.char;$('fullWord').textContent=`${current.word}（${current.reading}）`;$('answerReveal').classList.add('show')};
-$('rightBtn').onclick=()=>{mastered.add(current.char);wrong.delete(current.char);updateStats();next()};
-$('wrongBtn').onclick=()=>{wrong.add(current.char);copyLeft=3;mode='teach';$('answerReveal').classList.remove('show');$('teachChar').textContent=current.char;$('copyMsg').textContent='还要写3遍';$('teach').classList.add('show');practicePad.clear();updateStats()};
-$('practiceDone').onclick=()=>{if(mode!=='teach')return;if(!practicePad.hasInk()){ $('copyMsg').textContent='先写一遍再点完成';return}copyLeft--;practicePad.clear();if(copyLeft>0){$('copyMsg').textContent=`还要写${copyLeft}遍`}else{$('copyMsg').textContent='练习完成，稍后再考';const insert=Math.min(queue.length,3+Math.floor(Math.random()*3));queue.splice(insert,0,current);setTimeout(next,500)}};
-function finish(){$('quizCard').classList.add('hidden');$('complete').classList.add('show');updateStats()}$('restartBtn').onclick=init;
-$('settingsBtn').onclick=()=>{$('settings').classList.toggle('show');$('bankEditor').value=bank.map(x=>`${x.char}|${x.word}|${x.reading}`).join('\n')};$('cancelSettings').onclick=()=>$('settings').classList.remove('show');$('saveSettings').onclick=()=>{const txt=$('bankEditor').value.trim(),parsed=parseBank(txt);if(!parsed.length){alert('题库不能为空');return}safeSet('kanji_bank_v3',txt);$('settings').classList.remove('show');init()};
-init();
+function makePad(canvas,countEl){const ctx=canvas.getContext('2d'),strokes=[];let drawing=false,current=[];function fit(){const r=canvas.getBoundingClientRect(),d=devicePixelRatio||1;canvas.width=r.width*d;canvas.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);redraw()}function redraw(){ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);ctx.lineWidth=7;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#202638';for(const s of strokes){if(s.length<2)continue;ctx.beginPath();ctx.moveTo(s[0].x,s[0].y);for(let i=1;i<s.length;i++)ctx.lineTo(s[i].x,s[i].y);ctx.stroke()}countEl.textContent=strokes.length}function p(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}canvas.addEventListener('pointerdown',e=>{drawing=true;current=[p(e)];canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!drawing)return;current.push(p(e));redraw();if(current.length>1){const s=current;ctx.beginPath();ctx.moveTo(s[s.length-2].x,s[s.length-2].y);ctx.lineTo(s[s.length-1].x,s[s.length-1].y);ctx.stroke()}});function end(){if(!drawing)return;drawing=false;if(current.length===1)current.push({x:current[0].x+.1,y:current[0].y+.1});strokes.push(current);current=[];redraw()}canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);fit();window.addEventListener('resize',fit);return{clear(){strokes.length=0;redraw()},undo(){strokes.pop();redraw()},count(){return strokes.length}}}
+const pad=makePad($('canvas'),$('strokeNow')),ppad=makePad($('practice'),$('practiceStroke'));
+function stats(){const total=bank.length,done=mastered.size;$('left').textContent=total-done;$('right').textContent=done;$('wrong').textContent=wrong.size;$('bar').style.width=(done/total*100)+'%'}function masked(x){return x.word.replace(x.char,'□')}
+function next(){if(mastered.size===bank.length){$('card').classList.add('hidden');$('complete').classList.add('show');stats();return}while(q.length&&mastered.has(q[0].char))q.shift();if(!q.length)q=shuffle(bank.filter(x=>!mastered.has(x.char)));cur=q.shift();mode='quiz';$('reading').textContent=cur.reading;$('word').textContent=masked(cur);$('feedback').className='feedback';$('reveal').classList.remove('show');$('teach').classList.remove('show');pad.clear();ppad.clear();stats()}
+function reset(){q=shuffle(bank.slice());mastered.clear();wrong.clear();$('card').classList.remove('hidden');$('complete').classList.remove('show');next()}
+$('clear').onclick=()=>pad.clear();$('undo').onclick=()=>pad.undo();$('practiceClear').onclick=()=>ppad.clear();$('practiceUndo').onclick=()=>ppad.undo();$('hint').onclick=()=>{$('feedback').className='feedback show';$('feedback').textContent=`提示：完整词语是「${cur.word}」`};
+$('check').onclick=()=>{if(mode!=='quiz')return;const n=pad.count();if(!n){$('feedback').className='feedback show err';$('feedback').textContent='先手写这个汉字。';return}if(n!==cur.strokes){wrong.add(cur.char);$('feedback').className='feedback show err';$('feedback').textContent=`笔画数不对：你写了${n}画，正确是${cur.strokes}画。先练3遍。`;startTeach();stats();return}$('feedback').className='feedback show ok';$('feedback').textContent=`笔画数正确：${cur.strokes}画。再对照一下字形。`;$('answer').textContent=cur.char;$('full').textContent=`${cur.word}（${cur.reading}）`;$('strokeExpected').textContent=`正确笔画数：${cur.strokes}画`;$('reveal').classList.add('show');mode='judge'};
+function startTeach(){mode='teach';practiceLeft=3;$('reveal').classList.remove('show');$('teach').classList.add('show');$('teachChar').textContent=cur.char;$('practiceMsg').textContent=`每一遍都要写${cur.strokes}画，还要练3遍`;ppad.clear()}
+$('shapeWrong').onclick=()=>{wrong.add(cur.char);startTeach();stats()};$('shapeRight').onclick=()=>{mastered.add(cur.char);wrong.delete(cur.char);stats();next()};
+$('practiceDone').onclick=()=>{const n=ppad.count();if(n!==cur.strokes){$('practiceMsg').textContent=`这一遍是${n}画，应该是${cur.strokes}画，请重写`;ppad.clear();return}practiceLeft--;ppad.clear();if(practiceLeft>0){$('practiceMsg').textContent=`这遍笔画数正确，还要练${practiceLeft}遍`}else{$('practiceMsg').textContent='练习完成，稍后会再考';const pos=Math.min(q.length,3+Math.floor(Math.random()*3));q.splice(pos,0,cur);setTimeout(next,600)}};
+$('restart').onclick=reset;$('restartTop').onclick=reset;reset();
 })();
 </script></body></html>
