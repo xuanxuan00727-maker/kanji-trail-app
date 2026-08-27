@@ -5,34 +5,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>汉字闯关考试</title>
 <style>
-:root{--bg:#f5f7fb;--card:#fff;--text:#202638;--muted:#7d8798;--line:#e5e8ef;--blue:#5d69f7;--green:#1aa56f;--red:#e45353;--amber:#e49a22}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;color:var(--text)}.wrap{max-width:760px;margin:0 auto;padding:24px 18px 48px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px}h1{font-size:30px;margin:0 0 4px}.sub{color:var(--muted);font-size:14px}.btn{border:0;border-radius:16px;padding:13px 18px;font-size:17px;font-weight:700;background:#eef0f6;color:#242938;cursor:pointer;touch-action:manipulation}.btn.primary{background:var(--blue);color:#fff}.btn.red{background:#feecec;color:var(--red)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f0f2f7;border-radius:18px;padding:14px;text-align:center}.stat b{font-size:26px;display:block}.stat span{font-size:14px;color:var(--muted)}.progress{height:9px;background:#e9ecf3;border-radius:999px;margin:18px 0;overflow:hidden}.progress i{display:block;height:100%;background:var(--blue);width:0;transition:.25s}.card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:34px 26px;box-shadow:0 10px 28px rgba(30,40,70,.06);text-align:center}.label{color:var(--muted);font-size:17px}.reading{font-size:54px;font-weight:800;letter-spacing:3px;margin:18px 0 28px}.hint{font-size:16px;color:var(--muted);min-height:24px;margin-bottom:14px}.answer{width:100%;font-size:36px;text-align:center;padding:18px 12px;border:3px solid #e3e5ec;border-radius:22px;outline:none;background:#fff}.answer:focus{border-color:#aeb5ff}.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.feedback{margin-top:18px;border-radius:18px;padding:14px;font-size:17px;display:none}.feedback.ok{display:block;background:#eaf8f2;color:#137452}.feedback.bad{display:block;background:#fff0f0;color:#b33c3c}.teach{display:none;margin-top:18px;padding:20px;border-radius:20px;background:#fff8e9;text-align:left}.teach.show{display:block}.teach .big{font-size:60px;font-weight:800;text-align:center;margin:8px 0 14px;color:#a66a10}.copyInput{width:100%;font-size:34px;padding:14px;text-align:center;border:2px solid #f0d59f;border-radius:18px}.copyRow{display:flex;align-items:center;justify-content:space-between;margin-top:10px;color:#8a6a30}.settings{display:none;margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:20px}.settings.show{display:block}.settings textarea{width:100%;min-height:220px;border:2px solid var(--line);border-radius:16px;padding:12px;font-size:16px;line-height:1.5}.small{font-size:13px;color:var(--muted);line-height:1.5}.complete{display:none;text-align:center}.complete.show{display:block}.complete .emoji{font-size:70px}.hidden{display:none!important}@media(max-width:560px){.wrap{padding-top:18px}.top{align-items:center}h1{font-size:26px}.reading{font-size:46px}.card{padding:28px 18px}.answer{font-size:32px}.btn{font-size:16px;padding:13px 14px}}
+:root{--bg:#f5f7fb;--card:#fff;--text:#202638;--muted:#7d8798;--line:#e5e8ef;--blue:#5d69f7;--red:#e45353}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;color:var(--text)}.wrap{max-width:760px;margin:0 auto;padding:24px 18px 48px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px}h1{font-size:30px;margin:0 0 4px}.sub{color:var(--muted);font-size:14px}.btn{border:0;border-radius:16px;padding:13px 18px;font-size:17px;font-weight:700;background:#eef0f6;color:#242938;cursor:pointer;touch-action:manipulation}.btn.primary{background:var(--blue);color:#fff}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f0f2f7;border-radius:18px;padding:14px;text-align:center}.stat b{font-size:26px;display:block}.stat span{font-size:14px;color:var(--muted)}.progress{height:9px;background:#e9ecf3;border-radius:999px;margin:18px 0;overflow:hidden}.progress i{display:block;height:100%;background:var(--blue);width:0;transition:.25s}.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:32px 24px;box-shadow:0 10px 28px rgba(30,40,70,.06);text-align:center}.label{color:var(--muted);font-size:16px}.wordReading{font-size:28px;font-weight:700;margin:18px 0 8px;color:#596173;letter-spacing:2px}.wordPrompt{font-size:56px;font-weight:800;letter-spacing:4px;margin:4px 0 28px}.blank{display:inline-block;min-width:1.05em;color:var(--blue)}.answer{width:100%;font-size:36px;text-align:center;padding:18px 12px;border:3px solid #e3e5ec;border-radius:22px;outline:none;background:#fff}.answer:focus{border-color:#aeb5ff}.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.feedback{margin-top:18px;border-radius:18px;padding:14px;font-size:17px;display:none}.feedback.ok{display:block;background:#eaf8f2;color:#137452}.feedback.bad{display:block;background:#fff0f0;color:#b33c3c}.teach{display:none;margin-top:18px;padding:20px;border-radius:20px;background:#fff8e9;text-align:left}.teach.show{display:block}.teach .word{font-size:26px;text-align:center;color:#8a6a30}.teach .big{font-size:60px;font-weight:800;text-align:center;margin:6px 0 14px;color:#a66a10}.copyInput{width:100%;font-size:34px;padding:14px;text-align:center;border:2px solid #f0d59f;border-radius:18px}.copyRow{display:flex;align-items:center;justify-content:space-between;margin-top:10px;color:#8a6a30;gap:12px}.settings{display:none;margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:20px}.settings.show{display:block}.settings textarea{width:100%;min-height:240px;border:2px solid var(--line);border-radius:16px;padding:12px;font-size:15px;line-height:1.5}.small{font-size:13px;color:var(--muted);line-height:1.5}.complete{display:none;text-align:center}.complete.show{display:block}.complete .emoji{font-size:70px}.hidden{display:none!important}@media(max-width:560px){.wrap{padding-top:18px}.top{align-items:center}h1{font-size:26px}.wordReading{font-size:24px}.wordPrompt{font-size:48px}.card{padding:28px 18px}.answer{font-size:32px}.btn{font-size:16px;padding:13px 14px}}
 </style>
 </head>
 <body><div class="wrap">
-<div class="top"><div><h1>汉字闯关考试</h1><div class="sub">错题会强制练习3遍，并自动回炉</div></div><button class="btn" id="settingsBtn">设置</button></div>
+<div class="top"><div><h1>汉字闯关考试</h1><div class="sub">看词语和读音写汉字，错题练3遍后自动回炉</div></div><button class="btn" id="settingsBtn">设置</button></div>
 <div class="stats"><div class="stat"><b id="leftCount">0</b><span>待掌握</span></div><div class="stat"><b id="rightCount">0</b><span>答对</span></div><div class="stat"><b id="wrongCount">0</b><span>错题</span></div></div>
 <div class="progress"><i id="progressBar"></i></div>
-<section class="card" id="quizCard"><div class="label">看读音，写出汉字</div><div class="reading" id="reading">—</div><div class="hint" id="hint"></div><input class="answer" id="answer" placeholder="输入汉字" autocomplete="off" autocapitalize="off" spellcheck="false"/><div class="actions"><button class="btn" id="hintBtn">提示</button><button class="btn primary" id="submitBtn">确定</button></div><div class="feedback" id="feedback"></div><div class="teach" id="teach"><div>这个字先记住：</div><div class="big" id="teachChar"></div><div class="small">照着正确答案输入3遍。每写对1遍，下面次数会减少。</div><input class="copyInput" id="copyInput" placeholder="照着写一遍" autocomplete="off"/><div class="copyRow"><span id="copyMsg">还要写3遍</span><button class="btn" id="copyBtn">完成这一遍</button></div></div></section>
+<section class="card" id="quizCard"><div class="label">把□里的汉字写出来</div><div class="wordReading" id="wordReading">—</div><div class="wordPrompt" id="wordPrompt">—</div><input class="answer" id="answer" placeholder="输入一个汉字" autocomplete="off" autocapitalize="off" spellcheck="false"/><div class="actions"><button class="btn" id="hintBtn">提示</button><button class="btn primary" id="submitBtn">确定</button></div><div class="feedback" id="feedback"></div><div class="teach" id="teach"><div class="word" id="teachWord"></div><div class="big" id="teachChar"></div><div class="small">照着正确答案输入3遍。练完以后，这个字还会再次出现。</div><input class="copyInput" id="copyInput" placeholder="照着写一遍" autocomplete="off"/><div class="copyRow"><span id="copyMsg">还要写3遍</span><button class="btn" id="copyBtn">完成这一遍</button></div></div></section>
 <section class="complete" id="complete"><div class="emoji">🏆</div><h2>全部都会了！</h2><p>本轮所有汉字都已经答对。</p><button class="btn primary" id="restartBtn">再考一轮</button></section>
-<section class="settings" id="settings"><h3>题库设置</h3><p class="small">每行格式：汉字|读音|提示。修改后点“保存并重新开始”。</p><textarea id="bankEditor"></textarea><div class="actions"><button class="btn" id="cancelSettings">取消</button><button class="btn primary" id="saveSettings">保存并重新开始</button></div></section>
+<section class="settings" id="settings"><h3>题库设置</h3><p class="small">每行格式：要考的汉字|词语|词语读音，例如：世|世界|せかい</p><textarea id="bankEditor"></textarea><div class="actions"><button class="btn" id="cancelSettings">取消</button><button class="btn primary" id="saveSettings">保存并重新开始</button></div></section>
 </div>
 <script>
 (function(){
-const DEFAULT=`世|せ|世界\n全|ぜん|全部\n練|れん|練習\n住|じゅう|住所\n面|めん|面積\n湖|こ|湖\n県|けん|県\n相|そう|相手\n具|ぐ|道具\n運|うん|運動\n定|てい|予定\n部|ぶ|部分\n秒|びょう|秒\n服|ふく|洋服\n景|けい|景色\n童|どう|児童\n指|し|指示\n昔|むかし|昔\n題|だい|問題\n予|よ|予定\n球|きゅう|野球\n有|ゆう|有名\n悲|ひ|悲しい\n反|はん|反対\n坂|さか|坂道\n仕|し|仕事\n登|とう|登場\n緑|りょく|緑色\n村|むら|村\n助|じょ|助ける\n岸|がん|海岸\n路|ろ|道路\n氷|ひょう|氷\n鉄|てつ|鉄\n農|のう|農業\n館|かん|図書館\n横|よこ|横\n区|く|区\n感|かん|感想\n安|あん|安全\n平|へい|平和\n事|こと|仕事\n酒|さけ|酒\n温|おん|温度\n所|ところ|場所\n次|つぎ|次\n界|かい|世界\n球|きゅう|地球\n深|ふか|深い\n葉|は|葉\n詩|し|詩\n落|お|落ちる\n決|けつ|決める\n問|もん|問題\n使|つか|使う\n味|あじ|味\n湖|みずうみ|湖\n動|どう|運動\n進|しん|進む\n始|はじ|始める`;
+const DEFAULT=`世|世界|せかい
+全|全部|ぜんぶ
+練|練習|れんしゅう
+住|住所|じゅうしょ
+面|面積|めんせき
+湖|湖畔|こはん
+県|県内|けんない
+相|相手|あいて
+具|道具|どうぐ
+運|運動|うんどう
+定|予定|よてい
+部|部分|ぶぶん
+秒|秒針|びょうしん
+服|洋服|ようふく
+景|景色|けしき
+童|児童|じどう
+指|指示|しじ
+昔|昔話|むかしばなし
+題|問題|もんだい
+予|予定|よてい
+球|野球|やきゅう
+有|有名|ゆうめい
+悲|悲しい|かなしい
+反|反対|はんたい
+坂|坂道|さかみち
+仕|仕事|しごと
+登|登場|とうじょう
+緑|緑色|みどりいろ
+村|村人|むらびと
+助|助ける|たすける
+岸|海岸|かいがん
+路|道路|どうろ
+氷|氷水|こおりみず
+鉄|鉄道|てつどう
+農|農業|のうぎょう
+館|図書館|としょかん
+横|横道|よこみち
+区|地区|ちく
+感|感想|かんそう
+安|安全|あんぜん
+平|平和|へいわ
+事|仕事|しごと
+酒|お酒|おさけ
+温|温度|おんど
+所|場所|ばしょ
+次|次回|じかい
+界|世界|せかい
+深|深い|ふかい
+葉|葉っぱ|はっぱ
+詩|詩集|ししゅう
+落|落ちる|おちる
+決|決める|きめる
+問|問題|もんだい
+使|使う|つかう
+味|味見|あじみ
+動|運動|うんどう
+進|進む|すすむ
+始|始める|はじめる`;
 let bank=[],queue=[],mastered=new Set(),wrong=new Set(),current=null,copyLeft=0,mode='quiz';
 const $=id=>document.getElementById(id);
 function safeGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
 function safeSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-function parseBank(txt){return txt.split(/\n+/).map(s=>s.trim()).filter(Boolean).map(line=>{const [char,reading,hint]=line.split('|');return {char:(char||'').trim(),reading:(reading||'').trim(),hint:(hint||'').trim()}}).filter(x=>x.char&&x.reading)}
+function parseBank(txt){return txt.split(/\n+/).map(s=>s.trim()).filter(Boolean).map(line=>{const [char,word,reading]=line.split('|');return {char:(char||'').trim(),word:(word||'').trim(),reading:(reading||'').trim()}}).filter(x=>x.char&&x.word&&x.reading)}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function init(){bank=parseBank(safeGet('kanji_bank_v2')||DEFAULT);$('bankEditor').value=bank.map(x=>`${x.char}|${x.reading}|${x.hint}`).join('\n');queue=shuffle(bank.slice());mastered.clear();wrong.clear();mode='quiz';$('complete').classList.remove('show');$('quizCard').classList.remove('hidden');next();updateStats()}
+function maskedWord(item){return item.word.replace(item.char,'□')}
+function init(){bank=parseBank(safeGet('kanji_bank_v3')||DEFAULT);$('bankEditor').value=bank.map(x=>`${x.char}|${x.word}|${x.reading}`).join('\n');queue=shuffle(bank.slice());mastered.clear();wrong.clear();mode='quiz';$('complete').classList.remove('show');$('quizCard').classList.remove('hidden');next();updateStats()}
 function updateStats(){const total=bank.length,done=mastered.size;$('leftCount').textContent=Math.max(0,total-done);$('rightCount').textContent=done;$('wrongCount').textContent=wrong.size;$('progressBar').style.width=(total?done/total*100:0)+'%'}
-function next(){if(mastered.size>=bank.length){finish();return}while(queue.length&&mastered.has(queue[0].char))queue.shift();if(!queue.length){queue=shuffle(bank.filter(x=>!mastered.has(x.char)));if(!queue.length){finish();return}}current=queue.shift();mode='quiz';$('reading').textContent=current.reading;$('hint').textContent='';$('answer').value='';$('answer').disabled=false;$('feedback').className='feedback';$('feedback').textContent='';$('teach').classList.remove('show');setTimeout(()=>$('answer').focus(),80)}
-function submit(){if(mode!=='quiz'||!current)return;const v=$('answer').value.trim();if(!v)return;if(v===current.char){mastered.add(current.char);wrong.delete(current.char);$('feedback').className='feedback ok';$('feedback').textContent='✓ 答对了！';updateStats();setTimeout(next,500)}else{wrong.add(current.char);$('feedback').className='feedback bad';$('feedback').textContent=`不对，正确答案是「${current.char}」。先练3遍。`;$('answer').disabled=true;copyLeft=3;mode='teach';$('teachChar').textContent=current.char;$('copyInput').value='';$('copyMsg').textContent='还要写3遍';$('teach').classList.add('show');updateStats();setTimeout(()=>$('copyInput').focus(),80)}}
-function doCopy(){if(mode!=='teach')return;const v=$('copyInput').value.trim();if(v!==current.char){$('copyMsg').textContent=`请照着写「${current.char}」`;$('copyInput').select();return}copyLeft--;$('copyInput').value='';if(copyLeft>0){$('copyMsg').textContent=`还要写${copyLeft}遍`;setTimeout(()=>$('copyInput').focus(),50)}else{$('copyMsg').textContent='练习完成，稍后再考这个字';const insert=Math.min(queue.length,3+Math.floor(Math.random()*3));queue.splice(insert,0,current);setTimeout(next,650)}}
+function next(){if(mastered.size>=bank.length){finish();return}while(queue.length&&mastered.has(queue[0].char))queue.shift();if(!queue.length){queue=shuffle(bank.filter(x=>!mastered.has(x.char)));if(!queue.length){finish();return}}current=queue.shift();mode='quiz';$('wordReading').textContent=current.reading;$('wordPrompt').textContent=maskedWord(current);$('answer').value='';$('answer').disabled=false;$('feedback').className='feedback';$('feedback').textContent='';$('teach').classList.remove('show');setTimeout(()=>$('answer').focus(),80)}
+function submit(){if(mode!=='quiz'||!current)return;const v=$('answer').value.trim();if(!v)return;if(v===current.char){mastered.add(current.char);wrong.delete(current.char);$('feedback').className='feedback ok';$('feedback').textContent=`✓ 答对了：${current.word}`;updateStats();setTimeout(next,550)}else{wrong.add(current.char);$('feedback').className='feedback bad';$('feedback').textContent=`不对，${current.word}里的正确汉字是「${current.char}」。`;$('answer').disabled=true;copyLeft=3;mode='teach';$('teachWord').textContent=`${current.word}（${current.reading}）`;$('teachChar').textContent=current.char;$('copyInput').value='';$('copyMsg').textContent='还要写3遍';$('teach').classList.add('show');updateStats();setTimeout(()=>$('copyInput').focus(),80)}}
+function doCopy(){if(mode!=='teach')return;const v=$('copyInput').value.trim();if(v!==current.char){$('copyMsg').textContent=`请照着写「${current.char}」`;$('copyInput').select();return}copyLeft--;$('copyInput').value='';if(copyLeft>0){$('copyMsg').textContent=`还要写${copyLeft}遍`;setTimeout(()=>$('copyInput').focus(),50)}else{$('copyMsg').textContent='练习完成，稍后再考';const insert=Math.min(queue.length,3+Math.floor(Math.random()*3));queue.splice(insert,0,current);setTimeout(next,650)}}
 function finish(){$('quizCard').classList.add('hidden');$('complete').classList.add('show');updateStats()}
-$('submitBtn').addEventListener('click',submit);$('answer').addEventListener('keydown',e=>{if(e.key==='Enter')submit()});$('hintBtn').addEventListener('click',()=>{if(current)$('hint').textContent=current.hint?`提示：${current.hint}（答案是${current.char}）`:`答案是：${current.char}`});$('copyBtn').addEventListener('click',doCopy);$('copyInput').addEventListener('keydown',e=>{if(e.key==='Enter')doCopy()});$('restartBtn').addEventListener('click',init);
-$('settingsBtn').addEventListener('click',()=>{$('settings').classList.toggle('show');$('bankEditor').value=bank.map(x=>`${x.char}|${x.reading}|${x.hint}`).join('\n')});$('cancelSettings').addEventListener('click',()=>{$('settings').classList.remove('show')});$('saveSettings').addEventListener('click',()=>{const txt=$('bankEditor').value.trim();const parsed=parseBank(txt);if(!parsed.length){alert('题库不能为空');return}safeSet('kanji_bank_v2',txt);$('settings').classList.remove('show');init()});
+$('submitBtn').addEventListener('click',submit);$('answer').addEventListener('keydown',e=>{if(e.key==='Enter')submit()});$('hintBtn').addEventListener('click',()=>{if(current)$('feedback').className='feedback bad',$('feedback').textContent=`提示：完整词语是「${current.word}」`});$('copyBtn').addEventListener('click',doCopy);$('copyInput').addEventListener('keydown',e=>{if(e.key==='Enter')doCopy()});$('restartBtn').addEventListener('click',init);
+$('settingsBtn').addEventListener('click',()=>{$('settings').classList.toggle('show');$('bankEditor').value=bank.map(x=>`${x.char}|${x.word}|${x.reading}`).join('\n')});$('cancelSettings').addEventListener('click',()=>{$('settings').classList.remove('show')});$('saveSettings').addEventListener('click',()=>{const txt=$('bankEditor').value.trim();const parsed=parseBank(txt);if(!parsed.length){alert('题库不能为空');return}safeSet('kanji_bank_v3',txt);$('settings').classList.remove('show');init()});
 init();
 })();
 </script></body></html>
