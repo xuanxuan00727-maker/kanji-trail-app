@@ -68,6 +68,10 @@ button,input,select{font:inherit} button{cursor:pointer} .hidden{display:none!im
 .quiz-modal .quiz-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.quiz-progress{font-size:12px;font-weight:900;color:#668095}.quiz-question{font-size:23px;font-weight:950;margin:18px 0 14px;line-height:1.4}.quiz-options{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.quiz-options button{border:2px solid #e0e9f0;background:#fff;border-radius:16px;padding:14px;font-weight:950;color:#35556d}.quiz-options button.correct{background:#e9f9e9;border-color:#7ccc73;color:#247743}.quiz-options button.wrong{background:#fff0ef;border-color:#f2a6a0;color:#a64a42}.quiz-note{margin-top:12px;padding:11px 12px;border-radius:14px;background:#f4f8fb;color:#5c778c;font-size:13px;font-weight:750}
 @media(max-width:650px){.choice-grid,.on-fields{grid-template-columns:1fr}.time-grid{grid-template-columns:repeat(2,1fr)}.on-step h2{font-size:23px}.quiz-options{grid-template-columns:1fr}}
 
+
+/* v0.4 timed habit quest */
+.timer-quest{padding:8px 2px 4px;text-align:center}.timer-quest .timer-icon{font-size:48px;margin-top:4px}.timer-quest h2{margin:8px 0 2px}.timer-quest .timer-sub{margin:0;color:var(--muted);font-weight:750}.timer-big{font-size:64px;line-height:1;font-weight:950;letter-spacing:.04em;color:var(--deep);margin:24px 0 12px;font-variant-numeric:tabular-nums}.timer-progress{height:12px;border-radius:999px;background:#edf2f6;overflow:hidden;margin:0 auto 20px}.timer-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#4f8bea,#65c69c);border-radius:999px;transition:width .25s linear}.timer-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.timer-controls .btn{min-width:150px}.timer-status{margin-top:13px;font-size:13px;color:var(--muted);font-weight:800}.timer-demo{margin-top:12px;border:0;background:transparent;color:#8a9aaa;text-decoration:underline;font-size:12px;font-weight:800}.timer-finished{padding:18px;border-radius:20px;background:#edf9ef;color:#28784a;font-weight:900;margin:16px 0}
+@media(max-width:520px){.timer-big{font-size:52px}.timer-controls .btn{width:100%}}
 </style>
 </head>
 <body>
@@ -154,7 +158,7 @@ button,input,select{font:inherit} button{cursor:pointer} .hidden{display:none!im
         <article class="quest" id="jq-school"><div class="qtop"><div class="qicon school">📚</div><div><h3>がっこうの しゅくだい</h3><p>できたら しゃしんを とってね。あおまるが ぬけをチェック！</p></div><div class="qstate" id="jstate-school">まだ</div></div><label class="upload action-row"><span class="btn green">📷 しゃしんを とる</span><input type="file" accept="image/*" onchange="previewFile(this,'jprev-school')"></label><div class="preview" id="jprev-school"></div><div class="action-row"><button class="btn main" onclick="juniorAI('school')">あおまるチェック</button><button class="btn soft" onclick="juniorDone('school')">おうちの人 OK</button></div><div class="feedback" id="jfb-school"></div></article>
         <article class="quest" id="jq-math"><div class="qtop"><div class="qicon math">➕</div><div><h3>あおまる算数</h3><p>学年と今の進度から、きょうの5問を自動でつくるよ。</p><span class="digital-badge">✨ AUTO DAILY QUEST</span></div><div class="qstate" id="jstate-math">まだ</div></div><div class="action-row"><button class="btn main" onclick="openDailyQuest('math')">5もんに ちょうせん</button></div><div class="feedback" id="jfb-math"></div></article>
         <article class="quest" id="jq-kanji"><div class="qtop"><div class="qicon kanji">あ</div><div><h3>ことば・かんじ</h3><p>今の学年で習うことばと漢字を、毎日ちょっとずつ。</p><span class="digital-badge">✨ AUTO DAILY QUEST</span></div><div class="qstate" id="jstate-kanji">まだ</div></div><div class="action-row"><button class="btn main" onclick="openDailyQuest('japanese')">5もんに ちょうせん</button></div><div class="feedback" id="jfb-kanji"></div></article>
-        <article class="quest" id="jq-piano"><div class="qtop"><div class="qicon piano">🎹</div><div><h3>ピアノ 20ぷん</h3><p>タイマーを はじめたら、あとは れんしゅうするだけ！</p></div><div class="qstate" id="jstate-piano">まだ</div></div><div class="timer" id="jTimer">20:00</div><div class="action-row"><button class="btn green" id="jTimerBtn" onclick="toggleJTimer()">▶ はじめる</button><button class="btn soft" onclick="demoTimerFinish()">⚡ 原型：すぐ完了</button></div></article>
+        <article class="quest" id="jq-piano"><div class="qtop"><div class="qicon piano">🎹</div><div><h3>ピアノ 20ぷん</h3><p>タップしたらすぐにカウントダウン。途中で一時停止できます。</p></div><div class="qstate" id="jstate-piano">まだ</div></div><div class="timer" id="jTimer">20:00</div><div class="action-row"><button class="btn green" id="jTimerBtn" onclick="openTimedTask('piano',20,'ピアノ','🎹','junior')">▶ ピアノをはじめる</button></div></article>
       </div>
       <div class="reward-j"><div class="egg">🥚</div><div><h3 id="jRewardTitle">かえるの たまごは まだ ねてるよ</h3><p id="jRewardText">4つのクエストを ぜんぶクリアすると たまごが ひらく！</p></div><button class="btn gold" id="jClaim" disabled onclick="claimFrog('junior')">たまごを ひらく</button></div>
     </div>
@@ -171,8 +175,8 @@ button,input,select{font:inherit} button{cursor:pointer} .hidden{display:none!im
             <div class="etask"><div class="etask-row"><div class="etask-icon">📚</div><div class="etask-main"><h3>学校の宿題</h3><small>写真チェック · 完了</small><div class="progressbar"><span style="width:100%"></span></div></div><div class="qstate ok">✓</div></div></div>
             <div class="etask" id="e-math"><div class="etask-row"><div class="etask-icon">🧮</div><div class="etask-main"><h3>今日の算数 · 自動7問</h3><small id="eMathSub">学校の時期 + 苦手から自動生成</small><div class="progressbar"><span id="eMathBar" style="width:0%"></span></div></div><button class="btn main" onclick="openDailyQuest('math')">挑戦</button></div><div class="feedback" id="eMathFeedback"></div></div>
             <div class="etask"><div class="etask-row"><div class="etask-icon">✍️</div><div class="etask-main"><h3>国語・漢字 · 自動5問</h3><small>今日の進度に合わせて出題</small><div class="progressbar"><span style="width:0%"></span></div></div><button class="btn main" onclick="openDailyQuest('japanese')">挑戦</button></div></div>
-            <div class="etask"><div class="etask-row"><div class="etask-icon">📖</div><div class="etask-main"><h3>音読 10分</h3><small>タイマー型</small><div class="progressbar"><span style="width:25%"></span></div></div><button class="btn soft" onclick="this.textContent='完了 ✓';this.disabled=true;updateExplorerCount()">開始</button></div></div>
-            <div class="etask"><div class="etask-row"><div class="etask-icon">🎹</div><div class="etask-main"><h3>ピアノ 20分</h3><small>タイマー型</small><div class="progressbar"><span style="width:0%"></span></div></div><button class="btn soft" onclick="this.textContent='完了 ✓';this.disabled=true;updateExplorerCount()">開始</button></div></div>
+            <div class="etask" id="e-reading"><div class="etask-row"><div class="etask-icon">📖</div><div class="etask-main"><h3>音読 10分</h3><small id="eReadingSub">タップするとすぐカウントダウン</small><div class="progressbar"><span id="eReadingBar" style="width:0%"></span></div></div><button class="btn soft" id="eReadingBtn" onclick="openTimedTask('reading',10,'音読','📖','explorer')">開始</button></div></div>
+            <div class="etask" id="e-piano"><div class="etask-row"><div class="etask-icon">🎹</div><div class="etask-main"><h3>ピアノ 20分</h3><small id="ePianoSub">タップするとすぐカウントダウン</small><div class="progressbar"><span id="ePianoBar" style="width:0%"></span></div></div><button class="btn soft" id="ePianoBtn" onclick="openTimedTask('piano',20,'ピアノ','🎹','explorer')">開始</button></div></div>
           </div>
           <div class="explore-reward card"><div><b>今日のカードパック</b><div style="font-size:13px;color:var(--muted);font-weight:700;margin-top:3px">全タスク + ミニクエスト完了で解放</div></div><button class="btn gold" onclick="claimFrog('explorer')">カードを見る</button></div>
         </div>
@@ -259,7 +263,7 @@ function updateEstimate(){let e=estimateByGrade[setup.grade||3];document.getElem
 function setupUpload(input){document.getElementById('setupUploadState').textContent='✓ '+input.files.length+'枚を選択しました。正式版ではAIが単元名を読み取って進度を補正します。';}
 function renderPlacement(){setup.placementAnswered=0;setup.placementScore=0;document.getElementById('placementNext').disabled=true;let qs=placementQuestions[setup.grade||3],box=document.getElementById('placementBox');box.innerHTML='';qs.forEach((q,i)=>{let d=document.createElement('div');d.className='placement-q';d.innerHTML='<b>Q'+(i+1)+'. '+q[0]+'</b><div class="placement-opts">'+q[1].map((o,j)=>'<button onclick="placementAnswer('+i+','+j+','+q[2]+',this)">'+o+'</button>').join('')+'</div>';box.appendChild(d);});}
 function placementAnswer(i,j,correct,btn){let row=btn.parentElement;if(row.dataset.done)return;row.dataset.done='1';row.querySelectorAll('button').forEach(x=>x.classList.remove('picked'));btn.classList.add('picked');setup.placementAnswered++;if(j===correct)setup.placementScore++;if(setup.placementAnswered>=5)document.getElementById('placementNext').disabled=false;}
-function renderPlan(){let score=setup.placementScore;let level=score>=4?'今の時期の内容はよくできています':score>=2?'今の時期の内容を中心に、前の単元も少し復習します':'少し前の単元からやさしく確認します';document.getElementById('planIntro').textContent='ミニチェック '+score+'/5。'+level+'。毎日約'+setup.minutes+'分に自動調整します。';let mathN=setup.minutes<=10?4:setup.minutes<=15?5:7,jpN=setup.minutes<=10?3:5;document.getElementById('planBox').innerHTML='<div class="plan-row"><div class="ico">🧮</div><div class="txt"><b>算数 Daily Quest · '+mathN+'問</b><small>今の単元 + 復習 + 苦手を自動ミックス</small></div><span class="pill">約'+Math.max(5,Math.round(setup.minutes*.55))+'分</span></div><div class="plan-row"><div class="ico">✍️</div><div class="txt"><b>国語・漢字 · '+jpN+'問</b><small>学年配当漢字・語彙・短い読解</small></div><span class="pill">約'+Math.max(4,Math.round(setup.minutes*.35))+'分</span></div><div class="plan-row"><div class="ico">🐸</div><div class="txt"><b>弱点 Mini Quest</b><small>間違いがたまった日だけ 1〜2問追加</small></div><span class="pill">自動</span></div>';}
+function renderPlan(){let g=setup.grade||3,score=setup.placementScore;let level=score>=4?'今の時期の内容はよくできています':score>=2?'今の時期の内容を中心に、前の単元も少し復習します':'少し前の単元からやさしく確認します';document.getElementById('planIntro').textContent='ミニチェック '+score+'/5。'+level+'。毎日約'+setup.minutes+'分に自動調整します。';let mathN=setup.minutes<=10?4:setup.minutes<=15?5:7,jpN=setup.minutes<=10?3:5;document.getElementById('planBox').innerHTML='<div class="plan-row"><div class="ico">🧮</div><div class="txt"><b>算数 Daily Quest · '+mathN+'問</b><small>今の単元 + 復習 + 苦手を自動ミックス</small></div><span class="pill">約'+Math.max(5,Math.round(setup.minutes*.55))+'分</span></div><div class="plan-row"><div class="ico">✍️</div><div class="txt"><b>国語・漢字 · '+jpN+'問</b><small>学年配当漢字・語彙・短い読解</small></div><span class="pill">約'+Math.max(4,Math.round(setup.minutes*.35))+'分</span></div><div class="plan-row"><div class="ico">🐸</div><div class="txt"><b>弱点 Mini Quest</b><small>間違いがたまった日だけ 1〜2問追加</small></div><span class="pill">自動</span></div>';}
 function toggleExtra(btn){btn.classList.toggle('selected');let k=btn.dataset.extra;if(btn.classList.contains('selected')){if(!setup.extras.includes(k))setup.extras.push(k)}else setup.extras=setup.extras.filter(x=>x!==k);}
 function finishOnboarding(){let profile={grade:setup.grade,minutes:setup.minutes,mathPublisher:setup.mathPublisher,jpPublisher:setup.jpPublisher,placementScore:setup.placementScore,extras:setup.extras,createdAt:new Date().toISOString()};localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));let mode=profile.grade<=2?'junior':'explorer';localStorage.setItem(ROLE_KEY,mode);document.getElementById('onboarding').classList.remove('show');applyRole(mode,true);}
 function currentGrade(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||'{}').grade||setup.grade||3}catch(e){return setup.grade||3}}
@@ -290,12 +294,63 @@ function juniorAI(type){let fb=document.getElementById('jfb-'+type), prev=docume
 else if(type==='kanji'){fb.className='feedback show good';fb.innerHTML='<b>きれいに かけてる！</b><br>「海」の右がわを もうすこし大きくすると、もっと読みやすいよ。';juniorDone('kanji')}
 else{fb.className='feedback show good';fb.innerHTML='<b>ぬけている ところは なさそう！</b><br>きょうの がっこうしゅくだい、できたね。';juniorDone('school')}},700)}
 function refreshJunior(){let c=Object.values(jDone).filter(Boolean).length;document.getElementById('jDoneText').textContent=c+' / 4 クリア';let b=document.getElementById('jClaim');b.disabled=c<4;if(c===4){document.getElementById('jRewardTitle').textContent='たまごが うごいてる！';document.getElementById('jRewardText').textContent='ぜんぶクリア！きょうの かえるを はっけんしよう！'}}
+const timedTasks={
+  piano:{duration:20*60,remaining:20*60,done:false},
+  reading:{duration:10*60,remaining:10*60,done:false}
+};
+let activeTimedTask=null,timedInterval=null;
+function formatTimedSeconds(sec){sec=Math.max(0,Math.floor(sec));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0')}
+function openTimedTask(key,minutes,label,icon,source){
+  if(timedInterval){clearInterval(timedInterval);timedInterval=null}
+  if(!timedTasks[key])timedTasks[key]={duration:minutes*60,remaining:minutes*60,done:false};
+  let st=timedTasks[key]; if(st.done){st.remaining=0}
+  activeTimedTask={key,label,icon,source};
+  renderTimedModal();
+  document.getElementById('modal').classList.add('open');
+  if(!st.done) startTimedCountdown();
+}
+function renderTimedModal(){
+  if(!activeTimedTask)return;
+  let {key,label,icon}=activeTimedTask,st=timedTasks[key],elapsed=st.duration-st.remaining,pct=Math.min(100,Math.max(0,elapsed/st.duration*100));
+  let body=document.getElementById('modalBody');
+  if(st.done){body.innerHTML='<div class="timer-quest"><div class="timer-icon">'+icon+'</div><h2>'+label+' クリア！</h2><div class="timer-finished">🎉 時間いっぱい、よくがんばったね！</div><button class="btn green" onclick="closeTimedTask()">クエストにもどる</button></div>';return}
+  body.innerHTML='<div class="timer-quest"><div class="timer-icon">'+icon+'</div><h2>'+label+' タイマー</h2><p class="timer-sub">この画面を開くとすぐスタートします</p><div class="timer-big" id="activeTimerValue">'+formatTimedSeconds(st.remaining)+'</div><div class="timer-progress"><span id="activeTimerBar" style="width:'+pct+'%"></span></div><div class="timer-controls"><button class="btn main" id="activeTimerPause" onclick="toggleTimedPause()">⏸ 一時停止</button><button class="btn soft" onclick="closeTimedTask()">← クエストにもどる</button></div><div class="timer-status" id="activeTimerStatus">カウントダウン中</div><button class="timer-demo" onclick="demoTimedNearFinish()">⚡ 原型確認：残り10秒にする</button></div>';
+}
+function startTimedCountdown(){
+  if(!activeTimedTask||timedInterval)return;
+  let st=timedTasks[activeTimedTask.key]; if(st.done||st.remaining<=0)return;
+  let b=document.getElementById('activeTimerPause'),status=document.getElementById('activeTimerStatus');
+  if(b)b.textContent='⏸ 一時停止'; if(status)status.textContent='カウントダウン中';
+  timedInterval=setInterval(()=>{st.remaining=Math.max(0,st.remaining-1);updateTimedUI();if(st.remaining<=0)completeTimedTask()},1000);
+}
+function toggleTimedPause(){
+  if(!activeTimedTask)return;
+  if(timedInterval){clearInterval(timedInterval);timedInterval=null;let b=document.getElementById('activeTimerPause'),status=document.getElementById('activeTimerStatus');if(b)b.textContent='▶ つづける';if(status)status.textContent='一時停止中';}
+  else startTimedCountdown();
+}
+function updateTimedUI(){
+  if(!activeTimedTask)return;let st=timedTasks[activeTimedTask.key],pct=Math.min(100,Math.max(0,(st.duration-st.remaining)/st.duration*100));
+  let val=document.getElementById('activeTimerValue'),bar=document.getElementById('activeTimerBar');if(val)val.textContent=formatTimedSeconds(st.remaining);if(bar)bar.style.width=pct+'%';
+  if(activeTimedTask.key==='piano'){let j=document.getElementById('jTimer');if(j)j.textContent=formatTimedSeconds(st.remaining);let eb=document.getElementById('ePianoBar');if(eb)eb.style.width=pct+'%';let es=document.getElementById('ePianoSub');if(es)es.textContent=st.done?'20分 完了':formatTimedSeconds(st.remaining)+' のこり';}
+  if(activeTimedTask.key==='reading'){let eb=document.getElementById('eReadingBar');if(eb)eb.style.width=pct+'%';let es=document.getElementById('eReadingSub');if(es)es.textContent=st.done?'10分 完了':formatTimedSeconds(st.remaining)+' のこり';}
+}
+function completeTimedTask(){
+  if(!activeTimedTask)return;let info=activeTimedTask,st=timedTasks[info.key];st.remaining=0;st.done=true;if(timedInterval){clearInterval(timedInterval);timedInterval=null}updateTimedUI();
+  if(info.source==='junior'&&info.key==='piano'&&!jDone.piano)juniorDone('piano');
+  if(info.source==='explorer'){
+    let btn=info.key==='piano'?document.getElementById('ePianoBtn'):document.getElementById('eReadingBtn');if(btn){btn.textContent='完了 ✓';btn.disabled=true}
+    updateExplorerCount();
+  }
+  renderTimedModal();
+}
+function closeTimedTask(){if(timedInterval){clearInterval(timedInterval);timedInterval=null}document.getElementById('modal').classList.remove('open');activeTimedTask=null}
+function demoTimedNearFinish(){if(!activeTimedTask)return;timedTasks[activeTimedTask.key].remaining=Math.min(10,timedTasks[activeTimedTask.key].remaining);updateTimedUI()}
 function toggleJTimer(){let b=document.getElementById('jTimerBtn');if(jInt){clearInterval(jInt);jInt=null;b.textContent='▶ つづける';return}b.textContent='⏸ ちょっと休む';jInt=setInterval(()=>{jTimer--;renderJTimer();if(jTimer<=0){clearInterval(jInt);jInt=null;juniorDone('piano');b.textContent='できた ✓'}},1000)}
 function renderJTimer(){let m=Math.floor(jTimer/60),s=jTimer%60;document.getElementById('jTimer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
 function demoTimerFinish(){jTimer=0;renderJTimer();if(jInt){clearInterval(jInt);jInt=null}juniorDone('piano');document.getElementById('jTimerBtn').textContent='できた ✓'}
 function claimFrog(source){openCard(Math.floor(Math.random()*3));}
 function openCard(i){let d=CARD_DATA[i];document.getElementById('modalBody').innerHTML='<img src="'+d.img+'"><h2>'+d.rarity+' · '+d.name+'</h2><p><b>'+d.jp+'</b><br>'+d.fact+'</p><div class="pill">🌍 世界青蛙图鉴 +1</div>';document.getElementById('modal').classList.add('open')}
-function closeModal(){document.getElementById('modal').classList.remove('open')}
+function closeModal(){if(activeTimedTask){closeTimedTask();return}document.getElementById('modal').classList.remove('open')}
 function explorerGrade(){let f=document.getElementById('eMathFeedback');f.className='feedback show warn';document.getElementById('eMathSub').textContent='8/10 · 2题需要订正';document.getElementById('eMathBar').style.width='80%';f.innerHTML='<b>8 / 10 正确</b><br>第4题：把“每6个一组”看成了减法。<br>第7题：第二步 7×8 计算错误。<div class="action-row"><button class="btn main" onclick="openHints()">先看提示，不看答案</button><button class="btn soft" onclick="this.closest(\'.feedback\').innerHTML=\'✅ 订正完成 10/10！\'; document.getElementById(\'eMathBar\').style.width=\'100%\'">我改好了</button></div>'}
 function openHints(){document.getElementById('modalBody').innerHTML='<h2>第4题 · AI分层提示</h2><div class="hint-steps"><div class="hint"><b>Hint 1</b><br>题目说“每6个装一袋”，想一想：48里面有几个6？</div><div class="hint"><b>Hint 2</b><br>可以换成：6 × ? = 48</div><div class="hint"><b>Hint 3</b><br>如果还不会，再打开完整讲解。<div class="action-row"><button class="btn soft" onclick="this.parentElement.parentElement.innerHTML+=\'<br><b>完整讲解：</b>48 ÷ 6 = 8，所以可以装8袋。\'">打开完整讲解</button></div></div></div>';document.getElementById('modal').classList.add('open')}
 let eExtra=0;function updateExplorerCount(){eExtra++;document.getElementById('eDoneText').textContent=Math.min(5,2+eExtra)+' / 5 完了'}
@@ -303,7 +358,7 @@ function openMiniQuest(){document.getElementById('modalBody').innerHTML='<h2>AI 
 function parentChild(kind,btn){document.querySelectorAll('.child-switch button').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
 function showParentFile(input,id){document.getElementById(id).textContent='✓ '+input.files.length+' 个文件已选择（原型仅本地显示）'}
 function addParentTask(){let n=document.getElementById('taskName').value||'新任务',t=document.getElementById('taskType').value;let div=document.createElement('div');div.className='adminitem';div.innerHTML='<span class="drag">⋮⋮</span><span>⭐</span><span class="name">'+n+'</span><span class="type">'+t+'</span>';document.getElementById('adminTasks').appendChild(div);alert('原型：任务已加入模板')}
-renderJTimer();refreshJunior();
+renderJTimer();refreshJunior();if(document.getElementById('eReadingSub'))document.getElementById('eReadingSub').textContent='タップするとすぐカウントダウン';if(document.getElementById('ePianoSub'))document.getElementById('ePianoSub').textContent='タップするとすぐカウントダウン';
 applyRole(currentMode,false);
 if(!localStorage.getItem(PROFILE_KEY)){showOnboardStep(0);document.getElementById('onboarding').classList.add('show');}else{let p=JSON.parse(localStorage.getItem(PROFILE_KEY)||'{}');currentMode=(p.grade||3)<=2?'junior':'explorer';currentHome=currentMode;applyRole(currentMode,false);showScreen(currentHome);}
 </script>
