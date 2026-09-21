@@ -58,20 +58,94 @@ button,input,select{font:inherit} button{cursor:pointer} .hidden{display:none!im
 .profile-bg{background:linear-gradient(180deg,#eef7ff,#f8fbfd);border-radius:32px;padding:18px;min-height:720px}.profile-hero{display:flex;align-items:center;gap:14px;padding:18px}.avatar{width:64px;height:64px;border-radius:22px;display:grid;place-items:center;font-size:34px;background:linear-gradient(135deg,#d9efff,#eaf8d8)}.profile-hero h1{margin:0 0 3px;font-size:23px}.profile-hero p{margin:0;color:var(--muted);font-weight:750;font-size:13px}.settings-list{display:grid;gap:11px;margin-top:14px}.settings-card{padding:17px}.settings-card h2{margin:0 0 4px;font-size:17px}.settings-card p{margin:0;color:var(--muted);font-size:13px;font-weight:700;line-height:1.5}.role-settings{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.role-option{border:2px solid #e4edf5;background:#fff;border-radius:17px;padding:12px 10px;text-align:center;color:#5e778c;font-weight:900}.role-option.active{border-color:#7bb0f3;background:#edf5ff;color:var(--blue)}.role-option small{display:block;margin-top:3px;font-weight:700;color:#8397a7}.danger-link{border:0;background:#f4f7fa;color:#698095;border-radius:14px;padding:10px 12px;font-weight:850}
 @media(max-width:700px){.role-grid,.role-settings{grid-template-columns:1fr}.onboard-box h1{font-size:26px}.proto-note{display:none}.profile-shortcut{font-size:12px}}
 
+
+/* first-time setup v0.3 */
+.onboarding{align-items:flex-start;padding:28px 18px}
+.onboard-box{margin:auto;max-width:820px}
+.ob-progress{display:flex;align-items:center;gap:7px;margin:14px 0 22px}
+.ob-progress span{height:7px;flex:1;border-radius:999px;background:#e6eef5;transition:.2s}
+.ob-progress span.active{background:linear-gradient(90deg,var(--blue),var(--blue2))}
+.onboard-step{display:none}.onboard-step.active{display:block}
+.ob-kicker{font-size:12px;font-weight:950;letter-spacing:.12em;color:var(--blue);margin-bottom:6px}
+.age-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.age-card{border:3px solid #e6eef5;background:#fff;border-radius:26px;padding:22px;text-align:left;min-height:180px;color:var(--ink);box-shadow:0 12px 28px rgba(42,84,120,.08);transition:.18s}
+.age-card:hover,.age-card.selected{transform:translateY(-2px);border-color:#75aeef;box-shadow:0 16px 36px rgba(47,115,232,.14)}
+.age-card .emoji{font-size:40px}.age-card b{display:block;font-size:23px;margin:10px 0 5px}.age-card p{font-size:13px;line-height:1.55;color:var(--muted);font-weight:750;margin:0}
+.ob-actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+.ob-actions .btn{min-width:120px}
+.ob-profile{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.ob-field label{display:block;font-size:12px;font-weight:900;color:#5d758a;margin-bottom:6px}
+.ob-field input,.ob-field select{width:100%;border:2px solid #dce8f1;border-radius:15px;padding:13px;background:#fff;color:var(--ink);font-weight:850;outline:none}
+.ob-tip{margin-top:14px;background:#eff8ff;border-radius:17px;padding:13px 14px;color:#456a85;font-size:13px;font-weight:750;line-height:1.5}
+.preset-title{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:16px 0 10px}.preset-title b{font-size:16px}.preset-title span{font-size:12px;color:var(--muted);font-weight:750}
+.ob-task-list{display:grid;gap:9px}
+.ob-task{display:grid;grid-template-columns:auto 46px 1fr auto;align-items:center;gap:10px;background:#fff;border:2px solid #e5eef5;border-radius:18px;padding:12px}
+.ob-task:has(input:checked){border-color:#a7d4ff;background:#f7fbff}
+.ob-task input{width:21px;height:21px;accent-color:var(--blue)}
+.ob-task .ico{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:#eff7ff;font-size:23px}
+.ob-task b{display:block;font-size:14px}.ob-task small{display:block;color:var(--muted);font-size:11px;font-weight:750;margin-top:3px}
+.ob-task .type{font-size:11px;font-weight:900;color:#53718a;background:#edf4f8;border-radius:999px;padding:7px 9px;white-space:nowrap}
+.ob-custom{margin-top:12px;border:2px dashed #c8dbe9;border-radius:20px;padding:13px;background:#fbfdff}
+.ob-custom summary{cursor:pointer;font-weight:900;color:#355e7c}
+.ob-custom-grid{display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:8px;margin-top:11px}
+.ob-custom-grid input,.ob-custom-grid select{width:100%;border:2px solid #dce8f1;border-radius:13px;padding:10px;background:#fff;font-weight:800}
+.ob-upload{display:block;margin-top:9px;border:2px dashed #bcd5e7;border-radius:13px;padding:10px 12px;color:#53718a;font-size:12px;font-weight:850;background:#fff}
+.ob-upload input{display:none}
+.review-box{background:linear-gradient(135deg,#f5fbff,#f5fff3);border:2px solid #e0eef5;border-radius:22px;padding:16px;margin-top:14px}
+.review-child{display:flex;align-items:center;gap:12px;padding-bottom:13px;border-bottom:1px solid #dbe9ef}
+.review-avatar{width:50px;height:50px;border-radius:17px;background:linear-gradient(135deg,#65b8ff,#8bdc88);display:grid;place-items:center;font-size:27px}
+.review-tasks{display:grid;gap:7px;margin-top:12px}.review-task{display:flex;justify-content:space-between;gap:10px;background:#fff;border-radius:13px;padding:10px 11px;font-size:13px;font-weight:850}.review-task span:last-child{color:var(--muted);font-size:11px}
+.ob-done{background:#effbef;color:#31764a;border-radius:16px;padding:12px 13px;font-size:13px;font-weight:850;margin-top:12px}
+@media(max-width:640px){.age-grid,.ob-profile,.ob-custom-grid{grid-template-columns:1fr}.age-card{min-height:auto}.ob-task{grid-template-columns:auto 42px 1fr}.ob-task .type{grid-column:3}.onboard-box{padding:19px}.onboard-box h1{font-size:25px}}
+
 </style>
 </head>
 <body>
 <div class="onboarding" id="onboarding">
   <div class="onboard-box">
-    <div class="onboard-logo">🐸 FROG QUEST</div>
-    <h1>はじめまして！<br>だれが使いますか？</h1>
-    <p>最初に使い方を選びます。あとから「マイページ」でいつでも変更できます。</p>
-    <div class="role-grid">
-      <button class="role-card" onclick="chooseRole('junior')"><div class="role-emoji">🌱</div><b>小学1〜2年生</b><span>あおまると一緒に、写真・タイマー・ごほうびで宿題習慣をつくる Junior モード。</span></button>
-      <button class="role-card" onclick="chooseRole('explorer')"><div class="role-emoji">🧭</div><b>小学3〜4年生</b><span>AIのヒント、まちがい直し、弱点ミニクエストまで使える Explorer モード。</span></button>
-      <button class="role-card" onclick="chooseRole('parent')"><div class="role-emoji">👨‍👩‍👧</div><b>保護者</b><span>毎日のタスク設定、問題と答えの登録、学習状況の確認をする Parent モード。</span></button>
+    <div class="onboard-logo">🐸 FROG QUEST · はじめて設定</div>
+    <div class="ob-progress" id="obProgress"><span class="active"></span><span></span><span></span><span></span></div>
+    <div class="onboard-step active" id="obStep1">
+      <div class="ob-kicker">STEP 1 / 4 · AGE</div><h1>お子さまの学年を<br>教えてください</h1>
+      <p>学年に合わせて、画面の雰囲気・AIの話し方・おすすめタスクを自動で切り替えます。</p>
+      <div class="age-grid">
+        <button class="age-card" onclick="onboardingSelectAge('junior',this)"><div class="emoji">🌱🐸</div><b>小学1〜2年生</b><p>大きなボタン、短い言葉、すぐもらえるごほうび。まずは「自分で宿題を終える習慣」をつくります。</p></button>
+        <button class="age-card" onclick="onboardingSelectAge('explorer',this)"><div class="emoji">🧭🐸</div><b>小学3〜4年生</b><p>AIヒント、まちがい直し、弱点ミニクエスト。少しずつ「自分で学ぶ力」へステップアップします。</p></button>
+      </div>
+      <div class="ob-actions"><span></span><button class="btn main" id="obAgeNext" onclick="obNext(2)" disabled>次へ →</button></div>
     </div>
-    <div class="onboard-note">この選択はこの端末に保存されます。子ども用と保護者用はマイページから切り替えできます。</div>
+    <div class="onboard-step" id="obStep2">
+      <div class="ob-kicker">STEP 2 / 4 · CHILD</div><h1>お子さまのプロフィール</h1><p>呼び名だけでOK。正式な名前は必要ありません。</p>
+      <div class="ob-profile"><div class="ob-field"><label>ニックネーム</label><input id="obChildName" placeholder="例：そうちん"></div><div class="ob-field"><label>学年</label><select id="obGrade"></select></div></div>
+      <div class="ob-tip">🔒 商用版では、子どもの個人情報は最小限にします。プロフィール名はニックネームで利用できます。</div>
+      <div class="ob-actions"><button class="btn soft" onclick="obNext(1)">← 戻る</button><button class="btn main" onclick="obNext(3)">毎日のタスクを設定 →</button></div>
+    </div>
+    <div class="onboard-step" id="obStep3">
+      <div class="ob-kicker">STEP 3 / 4 · DAILY QUESTS</div><h1>毎日のクエストを<br>選びましょう</h1>
+      <p>最初から完璧に作らなくて大丈夫です。あとから家長端でいつでも追加・変更できます。</p>
+      <div class="preset-title"><b>おすすめ</b><span>チェックしたものが毎日のテンプレートになります</span></div>
+      <div class="ob-task-list" id="obTaskList">
+        <label class="ob-task" data-j="1" data-e="1"><input type="checkbox" checked data-name="学校の宿題" data-type="完成拍照型"><span class="ico">📚</span><span><b>学校の宿題</b><small>内容は毎日変わってOK。終わったら写真で確認。</small></span><span class="type">拍照</span></label>
+        <label class="ob-task" data-j="1" data-e="1"><input type="checkbox" checked data-name="算数プリント" data-type="AI批改型"><span class="ico">🧮</span><span><b>算数プリント</b><small>写真を撮るとAIが判定。まちがいは答えを出さずにヒント。</small></span><span class="type">AI批改</span></label>
+        <label class="ob-task" data-j="1" data-e="1"><input type="checkbox" checked data-name="漢字練習" data-type="AI书写型"><span class="ico">✍️</span><span><b>漢字練習</b><small>書き方・大きさ・読みやすさをやさしくチェック。</small></span><span class="type">书写AI</span></label>
+        <label class="ob-task" data-j="1" data-e="0"><input type="checkbox" checked data-name="ピアノ 20分" data-type="计时型"><span class="ico">🎹</span><span><b>ピアノ 20分</b><small>タイマーが終わったら自動でクリア。</small></span><span class="type">20分</span></label>
+        <label class="ob-task" data-j="0" data-e="1"><input type="checkbox" data-name="音読 10分" data-type="计时型"><span class="ico">📖</span><span><b>音読 10分</b><small>読む時間を記録。AIを使わない低コストタスク。</small></span><span class="type">10分</span></label>
+        <label class="ob-task" data-j="0" data-e="1"><input type="checkbox" checked data-name="塾・公文の宿題" data-type="AI 对答案型"><span class="ico">🧠</span><span><b>塾・公文の宿題</b><small>家長が問題と答えを登録。子どもの解答をAIが照合。</small></span><span class="type">答案对照</span></label>
+      </div>
+      <details class="ob-custom"><summary>＋ 自分でタスクを追加</summary>
+        <div class="ob-custom-grid"><input id="obCustomName" placeholder="例：英語の音読"><select id="obCustomType" onchange="obCustomTypeChanged()"><option>完成拍照型</option><option>AI 对答案型</option><option>计时型</option><option>家长确认型</option></select><input id="obCustomMinutes" type="number" min="1" value="15" placeholder="分"></div>
+        <label class="ob-upload" id="obRefQuestion">📘 AI对答案型の場合：問題を選択 <input type="file" multiple></label>
+        <label class="ob-upload" id="obRefAnswer">✅ 標準答案を選択 <input type="file" multiple></label>
+        <div class="action-row"><button class="btn soft" onclick="addOnboardCustomTask()">＋ このタスクを追加</button></div>
+      </details>
+      <div class="ob-actions"><button class="btn soft" onclick="obNext(2)">← 戻る</button><button class="btn main" onclick="buildOnboardReview()">確認する →</button></div>
+    </div>
+    <div class="onboard-step" id="obStep4">
+      <div class="ob-kicker">STEP 4 / 4 · READY</div><h1>これで準備OK！</h1><p>最初の設定はあとから全部変えられます。まずは今日から使ってみましょう。</p>
+      <div class="review-box"><div class="review-child"><div class="review-avatar">🐸</div><div><b id="obReviewChild">お子さま</b><div class="who" id="obReviewAge">小学1〜2年生</div></div></div><div class="review-tasks" id="obReviewTasks"></div></div>
+      <div class="ob-done">🎴 今日のタスクを全部クリアすると、最初の「世界のカエルカード」を1枚ゲットできます。</div>
+      <div class="ob-actions"><button class="btn soft" onclick="obNext(3)">← タスクを直す</button><button class="btn green" onclick="finishOnboarding()">FROG QUESTをはじめる！</button></div>
+    </div>
   </div>
 </div>
 <div class="shell">
@@ -176,11 +250,25 @@ const CARD_DATA=[
 const ROLE_KEY='frogQuestSelectedRoleV1';
 let currentMode=localStorage.getItem(ROLE_KEY)||'junior', currentHome=currentMode;
 let jDone={school:false,math:false,kanji:false,piano:false}, jStars=20, jTimer=1200, jInt=null;
+const ONBOARD_KEY='frogQuestOnboardingV2', TASKS_KEY='frogQuestDailyTasksV1', CHILD_KEY='frogQuestChildProfileV1';
+let onboardingAge=localStorage.getItem(ROLE_KEY)||'junior';
+function obSetStep(n){document.querySelectorAll('.onboard-step').forEach((el,i)=>el.classList.toggle('active',i===n-1));document.querySelectorAll('#obProgress span').forEach((el,i)=>el.classList.toggle('active',i<n));document.querySelector('.onboarding').scrollTo({top:0,behavior:'smooth'})}
+function onboardingSelectAge(age,btn){onboardingAge=age;document.querySelectorAll('.age-card').forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');document.getElementById('obAgeNext').disabled=false;document.getElementById('obGrade').innerHTML=age==='junior'?'<option>小学1年生</option><option>小学2年生</option>':'<option>小学3年生</option><option>小学4年生</option>';document.querySelectorAll('#obTaskList .ob-task').forEach(row=>{const show=age==='junior'?row.dataset.j==='1':row.dataset.e==='1';row.style.display=show?'grid':'none';const cb=row.querySelector('input[type=checkbox]');if(!show)cb.checked=false;else if(row.dataset.name!=='custom')cb.checked=true})}
+function obNext(n){obSetStep(n)}
+function obCustomTypeChanged(){const t=document.getElementById('obCustomType').value;document.getElementById('obCustomMinutes').style.display=t==='计时型'?'block':'none';document.getElementById('obRefQuestion').style.display=t==='AI 对答案型'?'block':'none';document.getElementById('obRefAnswer').style.display=t==='AI 对答案型'?'block':'none'}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function addOnboardCustomTask(){const name=(document.getElementById('obCustomName').value||'新しいタスク').trim(),type=document.getElementById('obCustomType').value,mins=document.getElementById('obCustomMinutes').value||15;const row=document.createElement('label');row.className='ob-task';row.dataset.j='1';row.dataset.e='1';row.dataset.name='custom';const icon=type==='计时型'?'⏱️':type==='AI 对答案型'?'🧠':type==='家长确认型'?'👨‍👩‍👧':'📷',meta=type==='计时型'?mins+'分':type;row.innerHTML='<input type="checkbox" checked data-name="'+escapeHtml(name)+'" data-type="'+escapeHtml(type)+'"><span class="ico">'+icon+'</span><span><b>'+escapeHtml(name)+'</b><small>追加したカスタムタスク</small></span><span class="type">'+escapeHtml(meta)+'</span>';document.getElementById('obTaskList').appendChild(row);document.getElementById('obCustomName').value=''}
+function collectOnboardTasks(){return [...document.querySelectorAll('#obTaskList .ob-task')].filter(row=>row.style.display!=='none').map(row=>row.querySelector('input[type=checkbox]')).filter(cb=>cb&&cb.checked).map(cb=>({name:cb.dataset.name,type:cb.dataset.type}))}
+function buildOnboardReview(){const tasks=collectOnboardTasks();if(!tasks.length){alert('毎日のタスクを1つ以上選んでください');return}const name=(document.getElementById('obChildName').value||'お子さま').trim(),grade=document.getElementById('obGrade').value;document.getElementById('obReviewChild').textContent=name;document.getElementById('obReviewAge').textContent=grade;document.getElementById('obReviewTasks').innerHTML=tasks.map((t,i)=>'<div class="review-task"><span>'+(i+1)+'. '+escapeHtml(t.name)+'</span><span>'+escapeHtml(t.type)+'</span></div>').join('');obSetStep(4)}
+function finishOnboarding(){const tasks=collectOnboardTasks(),child={name:(document.getElementById('obChildName').value||'お子さま').trim(),grade:document.getElementById('obGrade').value,mode:onboardingAge};localStorage.setItem(CHILD_KEY,JSON.stringify(child));localStorage.setItem(TASKS_KEY,JSON.stringify(tasks));localStorage.setItem(ONBOARD_KEY,'done');document.getElementById('onboarding').classList.remove('show');applyRole(onboardingAge,true);syncAdminTasks()}
+function openOnboarding(){document.getElementById('onboarding').classList.add('show');obSetStep(1);document.querySelectorAll('.age-card').forEach(x=>x.classList.remove('selected'));document.getElementById('obAgeNext').disabled=true}
+function syncAdminTasks(){let tasks=[];try{tasks=JSON.parse(localStorage.getItem(TASKS_KEY)||'[]')}catch(e){}if(!tasks.length)return;const box=document.getElementById('adminTasks');if(!box)return;box.innerHTML=tasks.map(t=>'<div class="adminitem"><span class="drag">⋮⋮</span><span>⭐</span><span class="name">'+escapeHtml(t.name)+'</span><span class="type">'+escapeHtml(t.type)+'</span></div>').join('')}
+
 function roleCopy(mode){return mode==='junior'?['Junior · 小学1〜2年生','あおまると一緒に、今日のクエストを進めよう。']:mode==='explorer'?['Explorer · 小学3〜4年生','AIヒントと弱点クエストで、自分で学ぶ力を育てよう。']:['Parent · 保護者','タスク設定と学習状況をまとめて確認できます。']}
 function applyRole(mode,goHome=true){currentMode=mode;currentHome=mode;localStorage.setItem(ROLE_KEY,mode);document.querySelectorAll('.role-option').forEach(x=>x.classList.remove('active'));let ro=document.getElementById('role-'+mode);if(ro)ro.classList.add('active');let c=roleCopy(mode);let t=document.getElementById('profileRoleTitle'),d=document.getElementById('profileRoleDesc');if(t)t.textContent=c[0];if(d)d.textContent=c[1];if(goHome){showScreen(mode);document.querySelectorAll('#bottomNav button').forEach((x,i)=>x.classList.toggle('active',i===0));}}
 function chooseRole(mode){document.getElementById('onboarding').classList.remove('show');applyRole(mode,true);}
 function profileSwitch(mode){applyRole(mode,false);let c=roleCopy(mode);document.getElementById('profileRoleTitle').textContent=c[0];document.getElementById('profileRoleDesc').textContent=c[1];}
-function resetRoleChoice(){localStorage.removeItem(ROLE_KEY);document.getElementById('onboarding').classList.add('show');}
+function resetRoleChoice(){localStorage.removeItem(ROLE_KEY);localStorage.removeItem(ONBOARD_KEY);localStorage.removeItem(TASKS_KEY);localStorage.removeItem(CHILD_KEY);openOnboarding();}
 function openProfileFromTop(){showScreen('profilePage');document.querySelectorAll('#bottomNav button').forEach((x,i)=>x.classList.toggle('active',i===3));}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 function bottomGo(page,btn){document.querySelectorAll('#bottomNav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');if(page==='home')showScreen(currentHome);if(page==='collection')showScreen('collectionPage');if(page==='progress')showScreen('progressPage');if(page==='profile')showScreen('profilePage');}
@@ -202,10 +290,10 @@ let eExtra=0;function updateExplorerCount(){eExtra++;document.getElementById('eD
 function openMiniQuest(){document.getElementById('modalBody').innerHTML='<h2>AI Mini Quest · 文章题</h2><p>昨日の間違いから、2問だけ作りました。</p><div class="hint"><b>Q1</b><br>あめが48こあります。6こずつ袋に入れると、何袋できますか？<div class="action-row"><button class="btn main" onclick="this.textContent=\'正解！ ✓\';this.disabled=true">48 ÷ 6 = 8</button><button class="btn soft">48 − 6 = 42</button></div></div><div class="hint"><b>Q2</b><br>56まいのカードを7人で同じ数ずつ分けます。1人何まい？</div>';document.getElementById('modal').classList.add('open')}
 function parentChild(kind,btn){document.querySelectorAll('.child-switch button').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
 function showParentFile(input,id){document.getElementById(id).textContent='✓ '+input.files.length+' 个文件已选择（原型仅本地显示）'}
-function addParentTask(){let n=document.getElementById('taskName').value||'新任务',t=document.getElementById('taskType').value;let div=document.createElement('div');div.className='adminitem';div.innerHTML='<span class="drag">⋮⋮</span><span>⭐</span><span class="name">'+n+'</span><span class="type">'+t+'</span>';document.getElementById('adminTasks').appendChild(div);alert('原型：任务已加入模板')}
+function addParentTask(){let n=document.getElementById('taskName').value||'新任务',t=document.getElementById('taskType').value,tasks=[];try{tasks=JSON.parse(localStorage.getItem(TASKS_KEY)||'[]')}catch(e){}tasks.push({name:n,type:t});localStorage.setItem(TASKS_KEY,JSON.stringify(tasks));syncAdminTasks();alert('任务已加入每日模板')}
 renderJTimer();refreshJunior();
-applyRole(currentMode,false);
-if(!localStorage.getItem(ROLE_KEY)){document.getElementById('onboarding').classList.add('show');}else{showScreen(currentHome);}
+applyRole(currentMode,false);syncAdminTasks();obCustomTypeChanged();
+if(!localStorage.getItem(ONBOARD_KEY)){openOnboarding();}else{showScreen(currentHome);}
 </script>
 </body>
 </html>
