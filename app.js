@@ -1,8 +1,7 @@
 const STORAGE_KEY = "kanjiTrailStateV1";
 const DAILY_BONUS = 60;
 const EXTRA_GRADE_BONUS = 20;
-const TASKS_PER_GRADE = 15;
-const WRITING_REPETITIONS = 10;
+const WRITING_REPETITIONS = 3;
 
 const strokePatterns = {
   mountain: [
@@ -581,6 +580,70 @@ const gradeData = {
   },
 };
 
+// 画像の50字を使う、書いてからテストする子ども向けコース。
+gradeData[1] = {
+  title: "50字チャレンジ コース",
+  accent: "#ff8a4c",
+  theme: "3回書いたら ミニテスト",
+  mapTheme: "かんじ宝さがし",
+  missionTime: "20分",
+  dailySet: [
+      { kanji: "違", meaning: "違いを見つける", reading: "ちがう", readingOptions: ["ちがう", "すな", "はら", "だん"], wordPrompt: "『違』を つかう ことばは どれ？", wordOptions: ["ちがう点", "はらが減る", "急な階だん", "かたをならべる"], goodWord: "ちがう点", pattern: "road", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "砂", meaning: "砂の中をかく", reading: "すな", readingOptions: ["すな", "はら", "だん", "かた"], wordPrompt: "『砂』を つかう ことばは どれ？", wordOptions: ["すなぼこり", "急な階だん", "かたをならべる", "雨がふる"], goodWord: "すなぼこり", pattern: "rain", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "腹", meaning: "お腹を大切に", reading: "はら", readingOptions: ["はら", "だん", "かた", "ふる"], wordPrompt: "『腹』を つかう ことばは どれ？", wordOptions: ["はらが減る", "かたをならべる", "雨がふる", "力をまとめる"], goodWord: "はらが減る", pattern: "person", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "段", meaning: "段をのぼる", reading: "だん", readingOptions: ["だん", "かた", "ふる", "むすぶ"], wordPrompt: "『段』を つかう ことばは どれ？", wordOptions: ["急な階だん", "雨がふる", "力をまとめる", "服をあらう"], goodWord: "急な階だん", pattern: "station", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "肩", meaning: "肩をまわす", reading: "かた", readingOptions: ["かた", "ふる", "むすぶ", "あらう"], wordPrompt: "『肩』を つかう ことばは どれ？", wordOptions: ["かたをならべる", "力をまとめる", "服をあらう", "異物の混入"], goodWord: "かたをならべる", pattern: "moon", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "降", meaning: "雨が降る", reading: "ふる", readingOptions: ["ふる", "むすぶ", "あらう", "まじる"], wordPrompt: "『降』を つかう ことばは どれ？", wordOptions: ["雨がふる", "服をあらう", "異物の混入", "単じゅんな性格"], goodWord: "雨がふる", pattern: "river", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "結", meaning: "結び目を作る", reading: "むすぶ", readingOptions: ["むすぶ", "あらう", "まじる", "じゅん"], wordPrompt: "『結』を つかう ことばは どれ？", wordOptions: ["力をまとめる", "異物の混入", "単じゅんな性格", "西日の反しゃ"], goodWord: "力をまとめる", pattern: "thread", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "洗", meaning: "手を洗う", reading: "あらう", readingOptions: ["あらう", "まじる", "じゅん", "しゃ"], wordPrompt: "『洗』を つかう ことばは どれ？", wordOptions: ["服をあらう", "単じゅんな性格", "西日の反しゃ", "せんの中をかく"], goodWord: "服をあらう", pattern: "clear", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "混", meaning: "色が混ざる", reading: "まじる", readingOptions: ["まじる", "じゅん", "しゃ", "えがく"], wordPrompt: "『混』を つかう ことばは どれ？", wordOptions: ["異物の混入", "西日の反しゃ", "せんの中をかく", "ごみをすてる"], goodWord: "異物の混入", pattern: "tune", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "純", meaning: "純な心", reading: "じゅん", readingOptions: ["じゅん", "しゃ", "えがく", "すてる"], wordPrompt: "『純』を つかう ことばは どれ？", wordOptions: ["単じゅんな性格", "せんの中をかく", "ごみをすてる", "したつづみ"], goodWord: "単じゅんな性格", pattern: "truth", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "射", meaning: "光を射す", reading: "しゃ", readingOptions: ["しゃ", "えがく", "すてる", "した"], wordPrompt: "『射』を つかう ことばは どれ？", wordOptions: ["西日の反しゃ", "ごみをすてる", "したつづみ", "らん打する"], goodWord: "西日の反しゃ", pattern: "road", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "描", meaning: "絵を描く", reading: "えがく", readingOptions: ["えがく", "すてる", "した", "らん"], wordPrompt: "『描』を つかう ことばは どれ？", wordOptions: ["せんの中をかく", "したつづみ", "らん打する", "細かい鉄"], goodWord: "せんの中をかく", pattern: "rain", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "捨", meaning: "物を捨てる", reading: "すてる", readingOptions: ["すてる", "した", "らん", "ほそい"], wordPrompt: "『捨』を つかう ことばは どれ？", wordOptions: ["ごみをすてる", "らん打する", "細かい鉄", "山の中ふく"], goodWord: "ごみをすてる", pattern: "person", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "舌", meaning: "舌を出す", reading: "した", readingOptions: ["した", "らん", "ほそい", "ふく"], wordPrompt: "『舌』を つかう ことばは どれ？", wordOptions: ["したつづみ", "細かい鉄", "山の中ふく", "桜のなみ木"], goodWord: "したつづみ", pattern: "station", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "乱", meaning: "列が乱れる", reading: "らん", readingOptions: ["らん", "ほそい", "ふく", "ならぶ"], wordPrompt: "『乱』を つかう ことばは どれ？", wordOptions: ["らん打する", "山の中ふく", "桜のなみ木", "四月以こう"], goodWord: "らん打する", pattern: "moon", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "細", meaning: "細い線", reading: "ほそい", readingOptions: ["ほそい", "ふく", "ならぶ", "こう"], wordPrompt: "『細』を つかう ことばは どれ？", wordOptions: ["細かい鉄", "桜のなみ木", "四月以こう", "形がことなる"], goodWord: "細かい鉄", pattern: "river", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "腹", meaning: "腹式呼吸", reading: "ふく", readingOptions: ["ふく", "ならぶ", "こう", "ことなる"], wordPrompt: "『腹』を つかう ことばは どれ？", wordOptions: ["山の中ふく", "四月以こう", "形がことなる", "矢をいる"], goodWord: "山の中ふく", pattern: "thread", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "並", meaning: "並木道", reading: "ならぶ", readingOptions: ["ならぶ", "こう", "ことなる", "いる"], wordPrompt: "『並』を つかう ことばは どれ？", wordOptions: ["桜のなみ木", "形がことなる", "矢をいる", "事件のはい景"], goodWord: "桜のなみ木", pattern: "clear", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "降", meaning: "以降の予定", reading: "こう", readingOptions: ["こう", "ことなる", "いる", "はい"], wordPrompt: "『降』を つかう ことばは どれ？", wordOptions: ["四月以こう", "矢をいる", "事件のはい景", "取しゃ選択"], goodWord: "四月以こう", pattern: "tune", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "異", meaning: "異なる形", reading: "ことなる", readingOptions: ["ことなる", "いる", "はい", "いき"], wordPrompt: "『異』を つかう ことばは どれ？", wordOptions: ["形がことなる", "事件のはい景", "取しゃ選択", "列がみだれる"], goodWord: "形がことなる", pattern: "truth", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "射", meaning: "矢を射る", reading: "いる", readingOptions: ["いる", "はい", "いき", "し"], wordPrompt: "『射』を つかう ことばは どれ？", wordOptions: ["矢をいる", "取しゃ選択", "列がみだれる", "ちいきの施設"], goodWord: "矢をいる", pattern: "road", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "背", meaning: "背中", reading: "はい", readingOptions: ["はい", "いき", "し", "えい"], wordPrompt: "『背』を つかう ことばは どれ？", wordOptions: ["事件のはい景", "列がみだれる", "ちいきの施設", "雑しを読む"], goodWord: "事件のはい景", pattern: "rain", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "捨", meaning: "取捨選択", reading: "しゃ", readingOptions: ["しゃ", "し", "えい", "かくだい"], wordPrompt: "『捨』を つかう ことばは どれ？", wordOptions: ["取しゃ選択", "ちいきの施設", "雑しを読む", "祭りのえい像"], goodWord: "取しゃ選択", pattern: "person", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "乱", meaning: "乱れた列", reading: "みだれる", readingOptions: ["みだれる", "えい", "かくだい", "てん"], wordPrompt: "『乱』を つかう ことばは どれ？", wordOptions: ["列がみだれる", "雑しを読む", "祭りのえい像", "かくだいする"], goodWord: "列がみだれる", pattern: "station", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "域", meaning: "地域", reading: "いき", readingOptions: ["いき", "かくだい", "てん", "ぞう"], wordPrompt: "『域』を つかう ことばは どれ？", wordOptions: ["ちいきの施設", "祭りのえい像", "かくだいする", "てん示パネル"], goodWord: "ちいきの施設", pattern: "moon", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "誌", meaning: "雑誌", reading: "し", readingOptions: ["し", "てん", "ぞう", "ほう"], wordPrompt: "『誌』を つかう ことばは どれ？", wordOptions: ["雑しを読む", "かくだいする", "てん示パネル", "所ぞうする"], goodWord: "雑しを読む", pattern: "river", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "映", meaning: "映画", reading: "えい", readingOptions: ["えい", "ぞう", "ほう", "うつる"], wordPrompt: "『映』を つかう ことばは どれ？", wordOptions: ["祭りのえい像", "てん示パネル", "所ぞうする", "ほう問する"], goodWord: "祭りのえい像", pattern: "thread", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "拡", meaning: "拡大", reading: "かくだい", readingOptions: ["かくだい", "ほう", "うつる", "たずねる"], wordPrompt: "『拡』を つかう ことばは どれ？", wordOptions: ["かくだいする", "所ぞうする", "ほう問する", "鏡にうつる"], goodWord: "かくだいする", pattern: "clear", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "展", meaning: "展示", reading: "てん", readingOptions: ["てん", "うつる", "たずねる", "われ"], wordPrompt: "『展』を つかう ことばは どれ？", wordOptions: ["てん示パネル", "ほう問する", "鏡にうつる", "外国をたずねる"], goodWord: "てん示パネル", pattern: "tune", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "蔵", meaning: "所蔵", reading: "ぞう", readingOptions: ["ぞう", "たずねる", "われ", "しょう"], wordPrompt: "『蔵』を つかう ことばは どれ？", wordOptions: ["所ぞうする", "鏡にうつる", "外国をたずねる", "われわれの要求"], goodWord: "所ぞうする", pattern: "truth", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "訪", meaning: "訪問", reading: "ほう", readingOptions: ["ほう", "われ", "しょう", "じょう"], wordPrompt: "『訪』を つかう ことばは どれ？", wordOptions: ["ほう問する", "外国をたずねる", "われわれの要求", "文化の伝しょう"], goodWord: "ほう問する", pattern: "road", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "映", meaning: "映る", reading: "うつる", readingOptions: ["うつる", "しょう", "じょう", "しょ"], wordPrompt: "『映』を つかう ことばは どれ？", wordOptions: ["鏡にうつる", "われわれの要求", "文化の伝しょう", "じょう気機関車"], goodWord: "鏡にうつる", pattern: "rain", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "訪", meaning: "訪ねる", reading: "たずねる", readingOptions: ["たずねる", "じょう", "しょ", "しゅう"], wordPrompt: "『訪』を つかう ことばは どれ？", wordOptions: ["外国をたずねる", "文化の伝しょう", "じょう気機関車", "対しょ方法"], goodWord: "外国をたずねる", pattern: "person", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "我", meaning: "我が家", reading: "われ", readingOptions: ["われ", "しょ", "しゅう", "りん"], wordPrompt: "『我』を つかう ことばは どれ？", wordOptions: ["われわれの要求", "じょう気機関車", "対しょ方法", "しゅう職する"], goodWord: "われわれの要求", pattern: "station", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "承", meaning: "承る", reading: "しょう", readingOptions: ["しょう", "しゅう", "りん", "したがう"], wordPrompt: "『承』を つかう ことばは どれ？", wordOptions: ["文化の伝しょう", "対しょ方法", "しゅう職する", "りん海公園"], goodWord: "文化の伝しょう", pattern: "moon", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "蒸", meaning: "蒸気", reading: "じょう", readingOptions: ["じょう", "りん", "したがう", "おん"], wordPrompt: "『蒸』を つかう ことばは どれ？", wordOptions: ["じょう気機関車", "しゅう職する", "りん海公園", "規則にしたがう"], goodWord: "じょう気機関車", pattern: "river", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "処", meaning: "対処", reading: "しょ", readingOptions: ["しょ", "したがう", "おん", "さい"], wordPrompt: "『処』を つかう ことばは どれ？", wordOptions: ["対しょ方法", "りん海公園", "規則にしたがう", "命の恩人"], goodWord: "対しょ方法", pattern: "thread", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "就", meaning: "就職", reading: "しゅう", readingOptions: ["しゅう", "おん", "さい", "りつ"], wordPrompt: "『就』を つかう ことばは どれ？", wordOptions: ["しゅう職する", "規則にしたがう", "命の恩人", "さい判官"], goodWord: "しゅう職する", pattern: "clear", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "臨", meaning: "臨む", reading: "りん", readingOptions: ["りん", "さい", "りつ", "のう"], wordPrompt: "『臨』を つかう ことばは どれ？", wordOptions: ["りん海公園", "命の恩人", "さい判官", "法りつを学ぶ"], goodWord: "りん海公園", pattern: "tune", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "従", meaning: "従う", reading: "したがう", readingOptions: ["したがう", "りつ", "のう", "ちょう"], wordPrompt: "『従』を つかう ことばは どれ？", wordOptions: ["規則にしたがう", "さい判官", "法りつを学ぶ", "のうの働き"], goodWord: "規則にしたがう", pattern: "truth", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "恩", meaning: "恩を返す", reading: "おん", readingOptions: ["おん", "のう", "ちょう", "よい"], wordPrompt: "『恩』を つかう ことばは どれ？", wordOptions: ["命の恩人", "法りつを学ぶ", "のうの働き", "心ぞうの音"], goodWord: "命の恩人", pattern: "road", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "裁", meaning: "裁判", reading: "さい", readingOptions: ["さい", "ちょう", "よい", "さばく"], wordPrompt: "『裁』を つかう ことばは どれ？", wordOptions: ["さい判官", "のうの働き", "心ぞうの音", "大ちょうの検査"], goodWord: "さい判官", pattern: "rain", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "律", meaning: "法律", reading: "りつ", readingOptions: ["りつ", "よい", "さばく", "ちがう"], wordPrompt: "『律』を つかう ことばは どれ？", wordOptions: ["法りつを学ぶ", "心ぞうの音", "大ちょうの検査", "はい活量"], goodWord: "法りつを学ぶ", pattern: "person", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "脳", meaning: "脳", reading: "のう", readingOptions: ["のう", "さばく", "ちがう", "すな"], wordPrompt: "『脳』を つかう ことばは どれ？", wordOptions: ["のうの働き", "大ちょうの検査", "はい活量", "よい薬を飲む"], goodWord: "のうの働き", pattern: "station", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "臓", meaning: "心臓", reading: "ぞう", readingOptions: ["ぞう", "ちがう", "すな", "はら"], wordPrompt: "『臓』を つかう ことばは どれ？", wordOptions: ["心ぞうの音", "はい活量", "よい薬を飲む", "じゅう業員"], goodWord: "心ぞうの音", pattern: "moon", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "腸", meaning: "腸", reading: "ちょう", readingOptions: ["ちょう", "ちがう", "すな", "はら"], wordPrompt: "『腸』を つかう ことばは どれ？", wordOptions: ["大ちょうの検査", "よい薬を飲む", "じゅう業員", "公平にさばく"], goodWord: "大ちょうの検査", pattern: "river", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "肺", meaning: "肺", reading: "はい", readingOptions: ["はい", "ちがう", "すな", "はら"], wordPrompt: "『肺』を つかう ことばは どれ？", wordOptions: ["はい活量", "じゅう業員", "公平にさばく", "ちがう点"], goodWord: "はい活量", pattern: "thread", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "良", meaning: "良い", reading: "よい", readingOptions: ["よい", "ちがう", "すな", "はら"], wordPrompt: "『良』を つかう ことばは どれ？", wordOptions: ["よい薬を飲む", "公平にさばく", "ちがう点", "すなぼこり"], goodWord: "よい薬を飲む", pattern: "clear", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "従", meaning: "従業員", reading: "じゅう", readingOptions: ["じゅう", "ちがう", "すな", "はら"], wordPrompt: "『従』を つかう ことばは どれ？", wordOptions: ["じゅう業員", "ちがう点", "すなぼこり", "はらが減る"], goodWord: "じゅう業員", pattern: "tune", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" },
+      { kanji: "裁", meaning: "裁く", reading: "さばく", readingOptions: ["さばく", "ちがう", "すな", "はら"], wordPrompt: "『裁』を つかう ことばは どれ？", wordOptions: ["公平にさばく", "ちがう点", "すなぼこり", "はらが減る"], goodWord: "公平にさばく", pattern: "truth", tip: "お手本を よく見て、形のバランスを たしかめながら ゆっくり書こう。" }
+  ],
+};
+Object.keys(gradeData).forEach((grade) => {
+  if (grade !== "1") delete gradeData[grade];
+});
+
 const rewardPool = [
   { name: "七転び八起き", rarity: "normal", meaning: "何度失敗しても立ち上がること。", example: "まちがえても、またチャレンジ。" },
   { name: "ちりも積もれば山となる", rarity: "normal", meaning: "小さな努力も続ければ大きな力になる。", example: "毎日5文字で、大きな自信に。" },
@@ -741,11 +804,15 @@ function getStepsForGrade(grade) {
   const items = gradeData[grade].dailySet;
   const steps = [];
   for (let index = 0; index < items.length; index += 1) {
-    steps.push({ type: "reading", item: items[index], id: `${index}-r` });
-    steps.push({ type: "word", item: items[(index + 2) % items.length], id: `${index}-w` });
     steps.push({ type: "writing", item: items[index], id: `${index}-t` });
+    steps.push({ type: "reading", item: items[index], id: `${index}-r` });
+    steps.push({ type: "word", item: items[index], id: `${index}-w` });
   }
   return steps;
+}
+
+function getTotalStepsForGrade(grade) {
+  return getStepsForGrade(grade).length;
 }
 
 function getCurrentStep() {
@@ -820,7 +887,7 @@ function checkSessionCompletion() {
     return;
   }
 
-  if (session.stepIndex < TASKS_PER_GRADE) {
+  if (session.stepIndex < getTotalStepsForGrade(state.selectedGrade)) {
     persistState();
     return;
   }
@@ -918,7 +985,7 @@ function handleWritingCheck() {
     session.writingPractice[step.id] = nextRepeat;
     if (nextRepeat >= WRITING_REPETITIONS) {
       delete session.writingPractice[step.id];
-      handleCorrectAnswer(`10回れんしゅう クリア (${score}点)`, 18);
+      handleCorrectAnswer(`れんしゅう クリア。つぎは テスト！ (${score}点)`, 18);
     } else {
       awardPoints(3, `なぞり ${nextRepeat}/${WRITING_REPETITIONS}`);
       uiState.feedback = {
@@ -1045,7 +1112,8 @@ function renderHero() {
   const info = getCurrentGradeData();
   const session = getCurrentSession();
   const levelInfo = getLevelInfo(state.points);
-  const progress = Math.round((session.completed / TASKS_PER_GRADE) * 100);
+  const totalSteps = getTotalStepsForGrade(state.selectedGrade);
+  const progress = Math.round((session.completed / totalSteps) * 100);
   const nextStep = getCurrentStep();
   const todayChars = info.dailySet.map((item) => item.kanji).join(" ・ ");
   const nextLevelEntry = levelTitles[levelInfo.level] || null;
@@ -1055,24 +1123,24 @@ function renderHero() {
       : `${Math.max(0, ((nextLevelEntry && nextLevelEntry.min) || state.points) - state.points)} pt`;
   const rewardHint = session.finished
     ? "受け取りずみ"
-    : `あと ${Math.max(TASKS_PER_GRADE - session.completed, 0)}問`;
+    : `あと ${Math.max(totalSteps - session.completed, 0)}問`;
   const currentMission = session.finished ? "コース クリア" : formatStepLabel(nextStep.type);
   document.getElementById("heroCard").innerHTML = `
     <div class="hero-grid">
       <div>
         <div class="mission-chip-row">
-          <span class="mission-chip">今日の 5文字: ${todayChars}</span>
+          <span class="mission-chip">今日の 50字: ${todayChars}</span>
           <span class="mission-chip">${info.mapTheme}</span>
         </div>
         <h2 class="hero-title">${info.title}</h2>
         <p class="hero-subtitle">
-          1日 ${info.missionTime} の ペースで、読み・ことば・書きじゅんを ミックス学習。
+          3回なぞってから、読み・ことばの ミニテストに チャレンジ。
           いまの ミッションは <strong>${currentMission}</strong>。
         </p>
         <div class="progress-wrap">
           <div class="progress-meta">
             <span>きょうの しんちょく</span>
-            <strong>${session.completed} / ${TASKS_PER_GRADE} ミッション</strong>
+            <strong>${session.completed} / ${totalSteps} ミッション</strong>
           </div>
           <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
         </div>
@@ -1089,7 +1157,7 @@ function renderHero() {
           </div>
           <div class="mini-stat">
             <span class="stat-label">書きじゅん</span>
-            <strong>5回</strong>
+            <strong>${WRITING_REPETITIONS}回→テスト</strong>
           </div>
           <div class="mini-stat">
             <span class="stat-label">ごほうび</span>
@@ -1107,7 +1175,7 @@ function renderLesson() {
   const step = getCurrentStep();
   const info = getCurrentGradeData();
 
-  if (session.finished && session.stepIndex >= TASKS_PER_GRADE) {
+  if (session.finished && session.stepIndex >= getTotalStepsForGrade(state.selectedGrade)) {
     lessonCard.innerHTML = `
       <div class="lesson-header">
         <div>
@@ -1119,7 +1187,7 @@ function renderLesson() {
       ${renderFeedbackBanner()}
       <div class="tip-box">
         <strong>すごい。</strong>
-        <p>きょうの 5文字を ぜんぶ 学習したよ。毎日の 学習完了で ランダムな ことわざカードが 1枚 もらえるよ。学年を きりかえて サンプルを見ることも できるよ。</p>
+        <p>50字チャレンジを 学習したよ。毎日の 学習完了で ランダムな ことわざカードが 1枚 もらえるよ。学年を きりかえて サンプルを見ることも できるよ。</p>
       </div>
       <div class="footer-actions">
         <button class="ghost-btn" data-action="restart-grade">この学年を もう一度</button>
@@ -1134,7 +1202,7 @@ function renderLesson() {
         <p class="eyebrow">Lesson Flow</p>
         <h2>${formatStepLabel(step.type)}</h2>
       </div>
-      <span class="lesson-step">${session.stepIndex + 1} / ${TASKS_PER_GRADE}</span>
+      <span class="lesson-step">${session.stepIndex + 1} / ${getTotalStepsForGrade(state.selectedGrade)}</span>
     </div>
   `;
 
@@ -1244,7 +1312,7 @@ function renderWritingStep(step) {
       </div>
       <div class="kanji-detail">
         <h2>${step.item.kanji} を なぞってみよう</h2>
-        <p>ガイドの 順ばんに あわせて、1画ずつ 指やマウスで なぞり書き。終わったら AI判定β を ためそう。</p>
+        <p>まずは 3回れんしゅう。指やマウスで 大きく なぞってから、読み・ことばの テストへ すすもう。</p>
         <div class="tip-box">
           <strong>書き方の ヒント</strong>
           <p>${step.item.tip}</p>
@@ -1255,12 +1323,12 @@ function renderWritingStep(step) {
       <div class="writing-meta">
         <span class="writing-badge">AI判定β: 画の 始点・終点・方向を みています</span>
         <span class="writing-badge" id="writingStrokeCount">筆画: ${uiState.writing.strokes.length} / ${expected.length}</span>
-        <span class="writing-badge">${step.item.kanji} を ${completedRepeats} / ${WRITING_REPETITIONS} 回 れんしゅう</span>
+        <span class="writing-badge">${step.item.kanji} を ${completedRepeats} / ${WRITING_REPETITIONS} 回 れんしゅう → テスト</span>
       </div>
       <div class="writing-support-grid">
       <div class="practice-progress-card">
         <div class="practice-progress-head">
-          <strong>10回れんしゅう の しんちょく</strong>
+          <strong>${WRITING_REPETITIONS}回れんしゅう の しんちょく</strong>
           <span>${completedRepeats} / ${WRITING_REPETITIONS}</span>
         </div>
         <div class="practice-progress-bar">
@@ -1471,7 +1539,7 @@ function renderTrack() {
         <p class="eyebrow">Trail Map</p>
         <h3>ながい だんだんマップ</h3>
       </div>
-      <span class="mission-chip">きょうの 進行: ${session.completed} / ${TASKS_PER_GRADE}</span>
+      <span class="mission-chip">きょうの 進行: ${session.completed} / ${getTotalStepsForGrade(state.selectedGrade)}</span>
     </div>
     <div class="track-board">
       <div class="track-path"></div>

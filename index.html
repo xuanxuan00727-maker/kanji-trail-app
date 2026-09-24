@@ -274,7 +274,7 @@
         <div class="brand-block">
           <p class="eyebrow">Blocky Learning World</p>
           <h1>かんじトレイル</h1>
-          <p class="brand-copy">まいにち 15〜20分で、ことばと書きじゅんをたのしくれんしゅう。</p>
+          <p class="brand-copy">3回書いたらミニテスト。50字をたのしくれんしゅう。</p>
         </div>
         <div class="grade-switcher" id="gradeSwitcher" aria-label="学年切り替え"></div>
         <div class="stats-stack">
@@ -433,7 +433,9 @@
         const session =
           typeof getCurrentSession === "function" ? getCurrentSession() : null;
         const tasks =
-          typeof TASKS_PER_GRADE === "number" ? TASKS_PER_GRADE : 15;
+          typeof getTotalStepsForGrade === "function" && state
+            ? getTotalStepsForGrade(state.selectedGrade)
+            : 150;
         const remaining = Math.max(tasks - ((session && session.completed) || 0), 0);
         const weekUnlocked = streak >= 7;
         const fortnightUnlocked = streak >= 14;
